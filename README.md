@@ -14,3 +14,4 @@ Mini IDE
 
 App to order mock tail drinks - Thinkn of a Point of Sale system.
 
+Business Proposal idea into a POS
