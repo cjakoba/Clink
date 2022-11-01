@@ -1,5 +1,7 @@
 # FinalProject
 
+Authors: Anshu Adhikari, Carlos Ortega, Christian Jakob
+
 CPSC 240 final group project using OOP paradigm and Java language.
 
 Circuit gate simulator
