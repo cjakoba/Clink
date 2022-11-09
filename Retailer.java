@@ -6,6 +6,12 @@ private String menu;
 
 ArrayList<Mocktails> mocktails;
 
+public Retailer(String menu)
+{
+    this.menu = menu;
+    mocktails = new ArrayList<>();
+}
+
 public static void addDrinks(){
 //add products to the menu
 }
