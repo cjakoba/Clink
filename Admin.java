@@ -4,12 +4,11 @@ public class Admin
 {
 private String menu;
 
-ArrayList<Mocktails> mocktails;
 
 public Admin(String menu)
 {
     this.menu = menu;
-    mocktails = new ArrayList<>();
+
 }
 
 public static void addDrinks(){
