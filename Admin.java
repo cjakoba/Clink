@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
-public class Retailer
+public class Admin
 {
 private String menu;
 
 ArrayList<Mocktails> mocktails;
 
-public Retailer(String menu)
+public Admin(String menu)
 {
     this.menu = menu;
     mocktails = new ArrayList<>();

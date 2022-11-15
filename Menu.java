@@ -1,4 +1,4 @@
-public class Mocktails {
+public class Menu {
     private String name;
     private String descripton;
     private double price;
