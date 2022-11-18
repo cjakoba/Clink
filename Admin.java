@@ -7,7 +7,7 @@ public class Admin
 {
 private String menu;
 
-Arraylist<Order>mocktails;
+ArrayList<Order>mocktails;
 
 
 public Admin(String menu)
@@ -15,16 +15,12 @@ public Admin(String menu)
     this.menu = menu;
 
 }
-
     public AdminOrder(String name,String description, double price){
-        mocktails = new Arraylist<>();
-        this.name = name;
-        this.descripton = description;
-        this.price = price;
+        mocktails = new ArrayList<>();
     }
 
     public Orders(){
-        mocktails = new Araylist<>();
+        mocktails = new ArrayList<>();
     }
 
 public static void addDrinks(){
