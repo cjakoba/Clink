@@ -1,28 +1,19 @@
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Scanner;
-
 public class Menu {
-    private ArrayList<Drink> drinks = new ArrayList<>();
+    private String name;
+    private String descripton;
+    private double price;
 
-    public void save() {
-        FileReader fr = null;
-        try {
-            fr = new FileReader("./menu.txt");
-        } catch (IOException e) {
-            System.out.println("Menu file not found.");
-        }
-        Scanner file = new Scanner(fr);
-        while (file.hasNext()) {
-            drinks.add(new Drink(file));
-        }
+
+    public String getName(){
+        return name;
     }
 
-    public void printDrinks() {
-        for (Drink d : drinks) {
-            System.out.println(d.getName());
-            System.out.println(d.getDescription());
-            System.out.println(d.getPrice());
-        }
+    public String getDescription(){
+        return descripton;
     }
+
+    public Double getPrice(){
+        return price;
+    }
+
 }

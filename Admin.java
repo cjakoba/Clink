@@ -5,41 +5,59 @@ import java.util.Scanner;
 
 public class Admin
 {
-private String menu;
+private String menuname;
 
-ArrayList<Order>mocktails;
+ArrayList<Customer>mocktails;
 
-
-public Admin(String menu)
-{
-    this.menu = menu;
-
+public Admin(String menuname){
+    mocktails = new ArrayList<>();
+    this.menuname = menuname;
 }
-    public AdminOrder(String name,String description, double price){
+
+public String getMenuname(){
+    return menuname;
+}
+
+    public Admin(){
         mocktails = new ArrayList<>();
     }
 
-    public Orders(){
-        mocktails = new ArrayList<>();
+    public void addOrder(Customer mocktail){
+    mocktails.add(mocktail);
     }
 
-public static void addDrinks(){
-//add products to the menu
+    public void print(){
+    for (Customer c : mocktails ){
+    System.out.println(c.getOrder());
+    }
+    }
+
+    public void saveOrder() throws IOException
+    {
+    try{
+    Scanner in = new Scanner(System.in);
+    System.out.println("Deck to save");
+    menuname = in.nextLine();
+    File file =  new File(menuname);
+    FileWriter fr  = null;
+    BufferedWriter br = null;
+    PrintWriter pr = null;
+    fr = new FileWriter(file,true);
+    br = new BufferedWriter(fr);
+    pr = new PrintWriter(br);
+    pr.println(file);
+
+    } catch (FileNotFoundException e) {
+        System.out.println("Not a file or directory");
+        e.printStackTrace();
+        } catch (IOException e) {
+
+        }
+
+    }
+
 }
 
-public static void updateMenu(){
-    //remove items
-    //change name of item
-    //change description of item
-    //change price of item
-}
-
-public static void calculateProfits()
-{
-    //add total amount of money from each sale
-}
 
 
 
-
-}

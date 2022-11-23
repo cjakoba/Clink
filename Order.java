@@ -2,8 +2,8 @@ public class Order
 {
     String menu;
 
-    public void addTo()
+    public void getOrder()
     {
-        System.out.println();
+
     }
 }
