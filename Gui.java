@@ -31,6 +31,7 @@ public class Gui extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(550, 1000));
         setPreferredSize(new java.awt.Dimension(550, 1000));
+        setResizable(false);
 
         jButton1.setText("Cart");
         jButton1.setMaximumSize(new java.awt.Dimension(100, 75));
@@ -55,7 +56,7 @@ public class Gui extends javax.swing.JFrame {
         );
         mainPanelLayout.setVerticalGroup(
                 mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 907, Short.MAX_VALUE)
+                        .addGap(0, 900, Short.MAX_VALUE)
         );
 
         jButton2.setText("Discovery");
@@ -84,7 +85,7 @@ public class Gui extends javax.swing.JFrame {
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 907, Short.MAX_VALUE)
+                                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 900, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -101,7 +102,7 @@ public class Gui extends javax.swing.JFrame {
         discovery.setVisible(false);
     }
 
-    // When clicking the discovey button
+    // When clicking the discovery button
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         discovery.setVisible(true);
         cart.setVisible(false);

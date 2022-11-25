@@ -43,7 +43,7 @@ public Admin(String menuname){
         menuname = in.nextLine();
         File file =  new File(menuname);
 
-        fr = new FileWriter(file,true);
+        fr = new FileWriter(file, true);
         br = new BufferedWriter(fr);
         pr = new PrintWriter(br);
         pr.println(file);

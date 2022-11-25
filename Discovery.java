@@ -1,64 +1,73 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.JPanel;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-
-public class Discovery extends javax.swing.JPanel {
+public class Discovery extends JPanel {
+    private ArrayList<Drink> drinks = new ArrayList<>();
+    private ArrayList<JButton> buttons = new ArrayList<>();
     GridBagLayout layout = new GridBagLayout();
-    DrinkInformation drinkInformation;
+    Drink drinkPanel;
 
     public Discovery() {
-        drinkInformation = new DrinkInformation();
-
+        // Load up the current menu
+        Menu menu = new Menu();
+        menu.save();
 
         initComponents();
-        this.setLayout(layout);
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridx = 0;
-        c.gridy = 0;
-        this.add(drinkInformation, c);
-        drinkInformation.setVisible(false);
+
+        // Set to grid layout for buttons
+        setLayout(new GridLayout(10, 10, 4, 4));
+
+        // Reads through menu, adds items as buttons to Discovery panel
+        for (Drink drink : menu.getDrinks()) {
+            drinks.add(drink);
+            buttons.add(new JButton(drink.getName()));
+        }
+
+        for (int i = 0; i < drinks.size(); i++) {
+            // Add panel to this panel
+            buttons.get(i).setVisible(true);
+            buttons.get(i).setBackground(new java.awt.Color(9, 234, 158));
+            buttons.get(i).setBorder(null);
+            buttons.get(i).setPreferredSize(new Dimension(40, 40));
+            add(buttons.get(i));
+
+            // When clicking on a drink, enter its information screen
+            buttons.get(i).addActionListener(new ItemActionListener(drinks.get(i)));
+        }
     }
 
-    @SuppressWarnings("unchecked")
     private void initComponents() {
-
-        jButton1 = new javax.swing.JButton();
-
         setBackground(new java.awt.Color(10, 198, 234));
         setEnabled(false);
         setMaximumSize(new java.awt.Dimension(550, 900));
         setMinimumSize(new java.awt.Dimension(550, 900));
         setPreferredSize(new java.awt.Dimension(550, 900));
+    }
 
-        jButton1.setBackground(new java.awt.Color(9, 234, 158));
-        jButton1.setText("Drink #1");
-        jButton1.setBorder(null);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+
+    // When the button is clicked...
+    private class ItemActionListener implements ActionListener {
+        Drink drink;
+
+        public ItemActionListener(Drink drink) {
+            this.drink = drink;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // All buttons must be hid to allow for other panel to render properly
+            for (JButton button : buttons) {
+                button.setVisible(false);
             }
-        });
+            setLayout(layout);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(374, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(724, Short.MAX_VALUE))
-        );
+            add(drink);
+            drink.setVisible(true);
+        }
     }
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        drinkInformation.setVisible(true);
-    }
-    private javax.swing.JButton jButton1;
 }
