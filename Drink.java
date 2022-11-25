@@ -5,6 +5,8 @@ public class Drink {
     private String description;
     private double price;
 
+    // Reads in and creates drinks based on already defined information such as a menu file
+    // Can also be used to create new drinks from an admin interface
     public Drink(Scanner in) {
         name = in.nextLine();
         description = in.nextLine();

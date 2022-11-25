@@ -14,7 +14,7 @@ public Admin(String menuname){
     this.menuname = menuname;
 }
 
-public String getMenuname(){
+    public String getMenuname(){
     return menuname;
 }
 
@@ -32,27 +32,29 @@ public String getMenuname(){
         }
     }
 
-    public void saveOrder() throws IOException
-    {
-    try{
-    Scanner in = new Scanner(System.in);
-    System.out.println("Deck to save");
-    menuname = in.nextLine();
-    File file =  new File(menuname);
-    FileWriter fr  = null;
-    BufferedWriter br = null;
-    PrintWriter pr = null;
-    fr = new FileWriter(file,true);
-    br = new BufferedWriter(fr);
-    pr = new PrintWriter(br);
-    pr.println(file);
+    // S
+    public void saveOrder() throws IOException {
+        FileWriter fr  = null;
+        BufferedWriter br = null;
+        PrintWriter pr = null;
 
-    } catch (FileNotFoundException e) {
-        System.out.println("Not a file or directory");
-        e.printStackTrace();
-        } catch (IOException e) {
+        try {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Deck to save");
+        menuname = in.nextLine();
+        File file =  new File(menuname);
 
-        }
+        fr = new FileWriter(file,true);
+        br = new BufferedWriter(fr);
+        pr = new PrintWriter(br);
+        pr.println(file);
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Not a file or directory");
+            e.printStackTrace();
+            } catch (IOException e) {
+
+            }
 
     }
 
