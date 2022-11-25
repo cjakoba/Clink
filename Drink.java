@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Scanner;
 import javax.swing.*;
 
@@ -26,7 +28,6 @@ public class Drink extends JPanel {
         initComponents();
     }
 
-    @SuppressWarnings("unchecked")
     private void initComponents() {
         setBackground(new java.awt.Color(159, 8, 234));
         setMaximumSize(new java.awt.Dimension(650, 900));
@@ -46,8 +47,23 @@ public class Drink extends JPanel {
         jl3.setVisible(true);
 
         JButton addToCart = new JButton("Add To Cart");
+        addToCart.addActionListener(new ItemActionListener(this));
         add(addToCart);
         addToCart.setVisible(true);
+    }
+
+    // When the button is clicked...
+    private class ItemActionListener implements ActionListener {
+        Drink drink;
+
+        public ItemActionListener(Drink drink) {
+            this.drink = drink;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Cart.addToCart(drink);
+        }
     }
 
     public String getName() {

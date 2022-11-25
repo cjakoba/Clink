@@ -21,7 +21,6 @@ public class Gui extends javax.swing.JFrame {
         cart.setVisible(false);
     }
 
-    @SuppressWarnings("unchecked")
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
@@ -98,6 +97,7 @@ public class Gui extends javax.swing.JFrame {
 
     // When clicking the cart button
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+        cart.refresh();
         cart.setVisible(true);
         discovery.setVisible(false);
     }
