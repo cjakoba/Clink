@@ -1,7 +1,6 @@
 public class Main {
     public static void main(String[] args) {
         Menu menu = new Menu();
-        MainFrame mainFrame = new MainFrame();
         //menu.save();
         //menu.printDrinks();
 
@@ -26,7 +25,6 @@ public class Main {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Gui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

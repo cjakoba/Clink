@@ -32,7 +32,6 @@ public Admin(String menuname){
         }
     }
 
-    // S
     public void saveOrder() throws IOException {
         FileWriter fr  = null;
         BufferedWriter br = null;
