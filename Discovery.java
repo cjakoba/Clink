@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JPanel;
+import javax.swing.ImageIcon;
 
 public class Discovery extends JPanel {
     private ArrayList<Drink> drinks = new ArrayList<>();
@@ -27,8 +28,11 @@ public class Discovery extends JPanel {
             buttons.add(new JButton(drink.getName()));
         }
 
+        // Set styling for all the buttons
         for (int i = 0; i < drinks.size(); i++) {
             // Add panel to this panel
+            Icon icon = new ImageIcon("C:\\Users\\cajak\\Desktop\\champagne.png");
+            buttons.get(i).setIcon(icon);
             buttons.get(i).setVisible(true);
             buttons.get(i).setBackground(new java.awt.Color(9, 234, 158));
             buttons.get(i).setBorder(null);

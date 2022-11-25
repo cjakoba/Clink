@@ -1,10 +1,16 @@
-public class Cart extends javax.swing.JPanel {
+import javax.swing.*;
+
+public class Cart extends JPanel {
 
     public Cart() {
         initComponents();
     }
+
     @SuppressWarnings("unchecked")
     private void initComponents() {
+        // Set the layout to column box layout
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
 
         setBackground(new java.awt.Color(9, 234, 158));
         setMaximumSize(new java.awt.Dimension(550, 900));
