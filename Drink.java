@@ -6,6 +6,7 @@ public class Drink extends JPanel {
     private String name;
     private String description;
     private double price;
+    private int id;
 
     // Reads in and creates drinks based on already defined information such as a menu file
     // Can also be used to create new drinks from an admin interface
@@ -20,6 +21,7 @@ public class Drink extends JPanel {
         name = in.nextLine();
         description = in.nextLine();
         price = Double.parseDouble(in.nextLine());
+        id = Integer.parseInt(in.nextLine());
         in.nextLine();
         initComponents();
     }
@@ -58,5 +60,9 @@ public class Drink extends JPanel {
 
     public double getPrice() {
         return price;
+    }
+
+    public int getId() {
+        return id;
     }
 }

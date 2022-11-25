@@ -25,13 +25,14 @@ public class Discovery extends JPanel {
         // Reads through menu, adds items as buttons to Discovery panel
         for (Drink drink : menu.getDrinks()) {
             drinks.add(drink);
+            System.out.println(drink.getId());
             buttons.add(new JButton(drink.getName()));
         }
 
         // Set styling for all the buttons
         for (int i = 0; i < drinks.size(); i++) {
             // Add panel to this panel
-            Icon icon = new ImageIcon("C:\\Users\\cajak\\Desktop\\champagne.png");
+            Icon icon = new ImageIcon("icons/" + drinks.get(i).getId() + ".png");
             buttons.get(i).setIcon(icon);
             buttons.get(i).setVisible(true);
             buttons.get(i).setBackground(new java.awt.Color(9, 234, 158));
