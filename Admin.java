@@ -26,10 +26,10 @@ public String getMenuname(){
     mocktails.add(mocktail);
     }
 
-    public void print(){
-    for (Customer c : mocktails ){
-    System.out.println(c.getOrder());
-    }
+    public void print() {
+        for (Customer c : mocktails ) {
+            //System.out.println(c.getOrder());
+        }
     }
 
     public void saveOrder() throws IOException
