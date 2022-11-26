@@ -68,6 +68,7 @@ public class Gui extends javax.swing.JFrame {
                     title.setVisible(false);
                     discovery.refresh();
                     scrollPane.setVisible(true);
+                    discovery.setVisible(true);
                     jButton1.setVisible(true);
                     jButton2.setVisible(true);
                 }
@@ -184,12 +185,14 @@ public class Gui extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         cart.refresh();
         cart.setVisible(true);
+        discovery.setVisible(false);
         scrollPane.setVisible(false);
     }
 
     // DISCOVERY BUTTON ACTION PERFORMED
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         discovery.refresh();
+        discovery.setVisible(true);
         scrollPane.setVisible(true);
         cart.setVisible(false);
     }

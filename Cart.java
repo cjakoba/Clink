@@ -16,17 +16,23 @@ class Cart extends JPanel {
 
 
     public static void addToCart(Drink drink) {
+        Drink setDrink = null;
+        boolean setNew = true;
         // If the cart is empty just add the drink
         if (cart.size() == 0) {
             cart.put(drink, 1);
         } else {
             // When the cart already has items in it, only increase quantity of already existing items
             for (Drink item : cart.keySet()) {
-                if (item.getName().equals(drink.getName())) {
-                    cart.put(item, cart.get(item) + 1);
-                } else {
-                    cart.put(drink, 1);
+                if ((item.getName()).equals(drink.getName())) {
+                    setDrink = item;
+                    setNew = false;
                 }
+            }
+            if (setNew) {
+                cart.merge(drink, 1, Integer::sum);
+            } else {
+                cart.merge(setDrink, 1, Integer::sum);
             }
         }
     }

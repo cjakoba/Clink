@@ -16,24 +16,19 @@ public class Discovery extends JPanel {
     GridBagLayout layout = new GridBagLayout();
     GridBagConstraints gbc = new GridBagConstraints();
     JScrollPane scrollPane = new JScrollPane(this);
+    Menu menu;
     Drink drinkPanel;
 
     public Discovery() {
-        // Load up the current menu
-        Menu menu = new Menu();
-        menu.save();
-
         initComponents();
-
-        // Reads through menu, adds items as buttons to Discovery panel
-        for (Drink drink : menu.getDrinks()) {
-            drinks.add(drink);
-            System.out.println(drink.getId());
-            buttons.add(new JButton(drink.getName()));
-        }
     }
 
     private void initComponents() {
+        removeAll();
+        // Load up the current menu
+        menu = new Menu();
+        menu.save();
+
         setBackground(Color.decode(PANEL_BACKGROUND_COLOR));
         setEnabled(false);
 
@@ -46,6 +41,13 @@ public class Discovery extends JPanel {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setBounds(50, 30, 300, 50);
+
+        // Reads through menu, adds items as buttons to Discovery panel
+        for (Drink drink : menu.getDrinks()) {
+            drinks.add(drink);
+            System.out.println(drink.getId());
+            buttons.add(new JButton(drink.getName()));
+        }
 
         // Set to grid layout for buttons
         // Set styling for all the buttons
@@ -69,6 +71,8 @@ public class Discovery extends JPanel {
             // When clicking on a drink, enter its information screen
             buttons.get(i).addActionListener(new ItemActionListener(drinks.get(i)));
         }
+        repaint();
+        revalidate();
     }
 
 
@@ -90,7 +94,7 @@ public class Discovery extends JPanel {
             for (JButton button : buttons) {
                 button.setVisible(false);
             }
-            setLayout(layout);
+            //setLayout(layout);
 
             add(drink);
             drink.setVisible(true);
