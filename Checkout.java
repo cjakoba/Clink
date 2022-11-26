@@ -30,8 +30,8 @@ public class Checkout extends JPanel{
     }
 
     // Saves the customers order to two text files,
-    // one which lists orders waiting to be fulfilled
-    // another which lists all orders for tax purposes
+    // one which lists orders waiting to be fulfilled (DONE)
+    // another which lists all orders for tax purposes (NEEDS TO BE IMPLEMENTED STILL)
     public void createOrder() {
         String fileName = customer.getFirstName() + customer.getLastName();
         orderDate = LocalDateTime.now();
