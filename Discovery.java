@@ -10,6 +10,7 @@ public class Discovery extends JPanel {
 
     private static final String PANEL_BACKGROUND_COLOR = "#224a6c";
     private static final String DRINK_BUTTON_BACKGROUND_COLOR = "#3c4975";
+    private static final String DRINK_BUTTON_TEXT_COLOR = "#FFFFFF";
 
     private ArrayList<Drink> drinks = new ArrayList<>();
     private ArrayList<JButton> buttons = new ArrayList<>();
@@ -58,6 +59,7 @@ public class Discovery extends JPanel {
             buttons.get(i).setIcon(icon);
             buttons.get(i).setVisible(true);
             buttons.get(i).setBackground(Color.decode(DRINK_BUTTON_BACKGROUND_COLOR));
+            buttons.get(i).setForeground(Color.decode(DRINK_BUTTON_TEXT_COLOR));
             buttons.get(i).setBorder(null);
             buttons.get(i).setBorderPainted(false);
             buttons.get(i).setFocusPainted(false);

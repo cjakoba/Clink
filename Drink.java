@@ -5,6 +5,9 @@ import java.util.Scanner;
 import javax.swing.*;
 
 public class Drink extends JPanel {
+
+    private static final String FONT = "helvetica";
+
     GridBagLayout layout = new GridBagLayout();
     GridBagConstraints constraints = new GridBagConstraints();
 
@@ -46,8 +49,8 @@ public class Drink extends JPanel {
         jl1.setFont(new Font("Serif", Font.BOLD, 20));
 
         jl1.setIcon(icon);
-        jl2.setFont(new Font("Serif", Font.BOLD, 20));
-        jl3.setFont(new Font("Serif", Font.BOLD, 20));
+        jl2.setFont(new Font(FONT, Font.PLAIN, 20));
+        jl3.setFont(new Font(FONT, Font.PLAIN, 20));
 
         jl1.setForeground(Color.WHITE);
         jl2.setForeground(Color.WHITE);
@@ -116,5 +119,19 @@ public class Drink extends JPanel {
 
     public void offPanel() {
         setVisible(false);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        int w = getWidth();
+        int h = getHeight();
+        Color color1 = Color.decode("#67497c");
+        Color color2 = Color.decode("#224a6c");
+        GradientPaint gp = new GradientPaint(0, 0, color1, 0, h, color2);
+        g2d.setPaint(gp);
+        g2d.fillRect(0, 0, w, h);
     }
 }
