@@ -19,8 +19,7 @@ public class Discovery extends JPanel {
 
         initComponents();
 
-        // Set to grid layout for buttons
-        setLayout(new GridLayout(10, 10, 4, 4));
+
 
         // Reads through menu, adds items as buttons to Discovery panel
         for (Drink drink : menu.getDrinks()) {
@@ -28,6 +27,17 @@ public class Discovery extends JPanel {
             System.out.println(drink.getId());
             buttons.add(new JButton(drink.getName()));
         }
+    }
+
+    private void initComponents() {
+        setBackground(new java.awt.Color(10, 198, 234));
+        setEnabled(false);
+        setMaximumSize(new java.awt.Dimension(550, 900));
+        setMinimumSize(new java.awt.Dimension(550, 900));
+        setPreferredSize(new java.awt.Dimension(550, 900));
+
+        // Set to grid layout for buttons
+        setLayout(new GridLayout(10, 10, 4, 4));
 
         // Set styling for all the buttons
         for (int i = 0; i < drinks.size(); i++) {
@@ -45,14 +55,6 @@ public class Discovery extends JPanel {
         }
     }
 
-    private void initComponents() {
-        setBackground(new java.awt.Color(10, 198, 234));
-        setEnabled(false);
-        setMaximumSize(new java.awt.Dimension(550, 900));
-        setMinimumSize(new java.awt.Dimension(550, 900));
-        setPreferredSize(new java.awt.Dimension(550, 900));
-    }
-
 
     // When the button is clicked...
     private class ItemActionListener implements ActionListener {
@@ -60,6 +62,10 @@ public class Discovery extends JPanel {
 
         public ItemActionListener(Drink drink) {
             this.drink = drink;
+        }
+
+        public Drink getActiveDrinkPanel() {
+            return drink;
         }
 
         @Override
@@ -75,4 +81,13 @@ public class Discovery extends JPanel {
         }
     }
 
+    public void refresh() {
+        removeAll();
+        for (JButton button : buttons) {
+            button.setVisible(true);
+        }
+        initComponents();
+        repaint();
+        revalidate();
+    }
 }

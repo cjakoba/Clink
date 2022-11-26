@@ -5,6 +5,9 @@ import java.util.Scanner;
 import javax.swing.*;
 
 public class Drink extends JPanel {
+    GridBagLayout layout = new GridBagLayout();
+    GridBagConstraints constraints = new GridBagConstraints();
+
     private String name;
     private String description;
     private double price;
@@ -14,7 +17,6 @@ public class Drink extends JPanel {
     // Can also be used to create new drinks from an admin interface
 
     public Drink() {
-        this.setLayout(new GridLayout(0,1));
         this.setVisible(false);
     }
 
@@ -29,27 +31,57 @@ public class Drink extends JPanel {
     }
 
     private void initComponents() {
+        setLayout(layout);
         setBackground(new java.awt.Color(159, 8, 234));
-        setMaximumSize(new java.awt.Dimension(650, 900));
-        setMinimumSize(new java.awt.Dimension(650, 900));
-        setPreferredSize(new java.awt.Dimension(650, 900));
+        setMaximumSize(new java.awt.Dimension(550, 900));
+        setMinimumSize(new java.awt.Dimension(550, 900));
+        setPreferredSize(new java.awt.Dimension(550, 900));
+        String html = "<html><body style='width: %1spx'>%1s";
+        Icon icon = new ImageIcon("icons/Stock.jpg");
 
         JLabel jl1 = new JLabel(String.valueOf(this.name));
-        JLabel jl2 = new JLabel(description);
+        JLabel jl2 = new JLabel(String.format(html, 300, description));
         JLabel jl3 = new JLabel(String.valueOf(price));
 
-        add(jl1, BorderLayout.NORTH);
-        add(jl2, BorderLayout.SOUTH);
-        add(jl3, BorderLayout.CENTER);
+        jl1.setFont(new Font("Serif", Font.BOLD, 20));
 
+        jl1.setIcon(icon);
+        jl2.setFont(new Font("Serif", Font.BOLD, 20));
+        jl3.setFont(new Font("Serif", Font.BOLD, 20));
+
+        jl1.setForeground(Color.WHITE);
+        jl2.setForeground(Color.WHITE);
+        jl3.setForeground(Color.WHITE);
+
+
+
+        constraints.gridy = 0;
+        constraints.gridx = 0;
+
+        add(jl1, constraints);
+        constraints.gridy = 1;
+        constraints.gridx = 0;
+        add(jl2, constraints);
+
+        constraints.gridwidth = 2;
+        constraints.gridy = 2;
+        constraints.gridx = 0;
+
+        JButton addToCart = new JButton("Add To Cart");
+        addToCart.addActionListener(new ItemActionListener(this));
+        add(addToCart, constraints);
+        addToCart.setVisible(true);
+        constraints.gridy = 3;
+        constraints.gridx = 0;
+        add(jl3, constraints);
         jl1.setVisible(true);
         jl2.setVisible(true);
         jl3.setVisible(true);
 
-        JButton addToCart = new JButton("Add To Cart");
-        addToCart.addActionListener(new ItemActionListener(this));
-        add(addToCart);
-        addToCart.setVisible(true);
+        // Required to place top left corner
+        constraints.weightx = 1;
+        constraints.weighty = 1;
+        add(new JLabel(" "), constraints);
     }
 
     // When the button is clicked...
@@ -80,5 +112,9 @@ public class Drink extends JPanel {
 
     public int getId() {
         return id;
+    }
+
+    public void offPanel() {
+        setVisible(false);
     }
 }

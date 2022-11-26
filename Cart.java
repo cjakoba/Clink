@@ -11,6 +11,7 @@ class Cart extends JPanel {
         initComponents();
     }
 
+
     public static void addToCart(Drink drink) {
         // If the cart is empty just add the drink
         if (cart.size() == 0) {
@@ -19,7 +20,9 @@ class Cart extends JPanel {
             // When the cart already has items in it, only increase quantity of already existing items
             for (Drink item : cart.keySet()) {
                 if (item.getName().equals(drink.getName())) {
-                    cart.merge(item, 1, Integer::sum);
+                    cart.put(item, cart.get(item) + 1);
+                } else {
+                    cart.put(drink, 1);
                 }
             }
         }
@@ -33,26 +36,30 @@ class Cart extends JPanel {
         setMaximumSize(new java.awt.Dimension(550, 900));
         setMinimumSize(new java.awt.Dimension(550, 900));
         setPreferredSize(new java.awt.Dimension(550, 900));
+
+        for (Drink drink : cart.keySet()) {
+            Icon icon = new ImageIcon("icons/" + drink.getId() + ".png");
+
+            JLabel name = new JLabel(drink.getName());
+            JLabel quantity = new JLabel(String.valueOf(cart.get(drink)));
+            JLabel price = new JLabel(String.valueOf(drink.getPrice() * cart.get(drink)));
+
+            add(name);
+            add(quantity);
+            add(price);
+
+            name.setIcon(icon);
+            name.setVisible(true);
+            quantity.setVisible(true);
+            price.setVisible(true);
+        }
+
     }
 
     // Will refresh the cart panel to update new items added to cart upon clicking add to cart
     public void refresh() {
         removeAll();
-
-        for (Drink drink : cart.keySet()) {
-            Icon icon = new ImageIcon("icons/" + drink.getId() + ".png");
-            JLabel name = new JLabel(drink.getName());
-            JLabel quantity = new JLabel(String.valueOf(cart.get(drink)));
-            JLabel price = new JLabel(String.valueOf(drink.getPrice() * cart.get(drink)));
-            add(name);
-            name.setIcon(icon);
-            name.setVisible(true);
-            add(quantity);
-            quantity.setVisible(true);
-            add(price);
-            price.setVisible(true);
-        }
-
+        initComponents();
         repaint();
         revalidate();
     }

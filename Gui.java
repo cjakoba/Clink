@@ -104,6 +104,7 @@ public class Gui extends javax.swing.JFrame {
 
     // When clicking the discovery button
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
+        discovery.refresh();
         discovery.setVisible(true);
         cart.setVisible(false);
     }
