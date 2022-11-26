@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Main {
     public static void main(String[] args) {
         Cart cart = new Cart();
@@ -26,7 +28,10 @@ public class Main {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Gui().setVisible(true);
+                Gui gui = new Gui();
+                gui.setBackground(Color.WHITE);
+                gui.setVisible(true);
+
             }
         });
     }

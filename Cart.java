@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 class Cart extends JPanel {
+
+    private static final String PANEL_BACKGROUND_COLOR = "#224a6c";
+
     private static HashMap<Drink, Integer> cart = new HashMap<>();
     private static ArrayList<Drink> drinks = new ArrayList<>();
 
@@ -32,7 +35,7 @@ class Cart extends JPanel {
         // Set the layout to column box layout
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        setBackground(new java.awt.Color(9, 234, 158));
+        setBackground(Color.decode(PANEL_BACKGROUND_COLOR));
         setMaximumSize(new java.awt.Dimension(550, 900));
         setMinimumSize(new java.awt.Dimension(550, 900));
         setPreferredSize(new java.awt.Dimension(550, 900));
