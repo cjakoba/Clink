@@ -108,6 +108,8 @@ class Cart extends JPanel {
                 Icon icon = new ImageIcon("icons/" + drink.getId() + ".png");
 
                 JLabel name = new JLabel(drink.getName());
+                name.setFont(new Font(FONT, Font.PLAIN, 30));
+                name.setForeground(Color.WHITE);
                 name.setIcon(icon);
                 JLabel quantity = new JLabel(String.valueOf(cart.get(drink)));
                 JLabel price = new JLabel(String.format("%.2f", drink.getPrice() * cart.get(drink)));

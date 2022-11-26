@@ -13,21 +13,25 @@ public class Checkout extends JPanel{
     JLabel estTax;
     JLabel orderTotal;
 
-
     // JButtons
     JButton submitOrder;
-
 
     public Checkout(Customer customer) {
         this.customer = customer;
         initComponents();
     }
 
+    // Saves the customers order to two text files,
+    // one which lists orders waiting to be fulfilled
+    // another which lists all orders for tax purposes
+    public void saveOrderToDB() {
+
+    }
+
     private void initComponents() {
         setMaximumSize(new java.awt.Dimension(550, 900));
         setMinimumSize(new java.awt.Dimension(550, 900));
         setPreferredSize(new java.awt.Dimension(550, 900));
-
 
         // JLabels
         shipTo = new JLabel(String.format("Shipping to: %s %s %s", customer.getFirstName(), customer.getLastName(), customer.getAddress()));
@@ -36,7 +40,6 @@ public class Checkout extends JPanel{
         beforeTax = new JLabel(String.format("Total before tax: $%.2f", Cart.getSubtotal() + 5.99));
         estTax = new JLabel(String.format("Estimated tax to be collected: $%.2f", (Cart.getSubtotal() + 5.99) * 0.053));
         orderTotal = new JLabel(String.format("Order total: $%.2f", Cart.getSubtotal() + 5.99 + (Cart.getSubtotal() + 5.99) * 0.053));
-
 
         // JButtons
         submitOrder = new JButton("Place your order");
@@ -50,19 +53,7 @@ public class Checkout extends JPanel{
         add(estTax);
         add(orderTotal);
 
-
-        // Place your order button
-
-        // Delivering to...
-
-        // items cost
-        // Shipping and handling ($5.99)
-        // Total before tax
-        // Estimated tax based on VA sales tax 5.3% (0.053) to be collected
-        // Order total
-
-
-
+        // COULD POSSIBLY ADD:
         // Form to sign
         // Login button
     }

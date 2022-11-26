@@ -90,7 +90,21 @@ public class Gui extends javax.swing.JFrame {
         getContentPane().setBackground(Color.decode(BOTTOM_BAR_BACKGROUND_COLOR));
 
         jButton1 = new javax.swing.JButton();
-        mainPanel = new javax.swing.JPanel();
+        mainPanel = new javax.swing.JPanel() {
+            @Override
+            public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+                int w = getWidth();
+                int h = getHeight();
+                Color color1 = Color.decode("#67497c");
+                Color color2 = Color.decode("#224a6c");
+                GradientPaint gp = new GradientPaint(0, 0, color1, 0, h, color2);
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, w, h);
+            }
+        };
         jButton2 = new javax.swing.JButton();
         setLayout(new BorderLayout());
 
@@ -199,7 +213,10 @@ public class Gui extends javax.swing.JFrame {
         cart.setVisible(false);
     }
 
+    // GRADIENT BACKGROUND COLOR
+
+
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JPanel mainPanel;
+    public javax.swing.JPanel mainPanel;
 }
