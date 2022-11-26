@@ -68,8 +68,12 @@ class Cart extends JPanel {
         cart.remove(drink);
     }
 
-    // UI METHODS
+    // Get the entire cart
+    public static HashMap<Drink, Integer> getCart() {
+        return cart;
+    }
 
+    // UI METHODS
     private void initComponents() {
         // Set the layout to column box layout
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

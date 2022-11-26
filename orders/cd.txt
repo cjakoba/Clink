@@ -1,0 +1,6 @@
+2022/11/26 17:39:34
+c | d 
+e | f |g
+Item: | Cinderella | Quantity: | 1 | Base Price: | 8.99
+Order total: | 15.77
+

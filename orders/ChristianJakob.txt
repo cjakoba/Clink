@@ -1,0 +1,6 @@
+Christian | Jakob | 18 Baldwin Dr, Fredericksburg VA, 22406 | cajakob@icloud.com | 8509027930
+Item: | Pina Colada | Quantity: | 1 | Base Price: | 8.99
+Item: | Cinderella | Quantity: | 1 | Base Price: | 8.99
+Item: | Sweet Sunrise | Quantity: | 2 | Base Price: | 8.69
+Order total: | 43.54
+

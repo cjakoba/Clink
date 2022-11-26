@@ -1,8 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
 
 public class Checkout extends JPanel{
-    Customer customer;
+    private Customer customer;
+    private LocalDateTime orderDate;
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
     // UI COMPONENTS
     // JLabels
@@ -24,8 +32,35 @@ public class Checkout extends JPanel{
     // Saves the customers order to two text files,
     // one which lists orders waiting to be fulfilled
     // another which lists all orders for tax purposes
-    public void saveOrderToDB() {
+    public void createOrder() {
+        String fileName = customer.getFirstName() + customer.getLastName();
+        orderDate = LocalDateTime.now();
+        FileWriter fw  = null;
+        BufferedWriter bw = null;
+        PrintWriter pw = null;
 
+        try {
+            fw = new FileWriter("orders/" + fileName + ".txt");
+            bw = new BufferedWriter(fw);
+            pw = new PrintWriter(bw);
+        } catch (IOException e) {
+            System.out.println("Order cannot be saved.");
+        }
+        // Date
+        pw.println(dtf.format(orderDate));
+
+        // Customer information
+        pw.printf("%s | %s \n", customer.getFirstName(), customer.getLastName());
+        pw.printf("%s | %s |%s\n", customer.getAddress(), customer.getEmail(), customer.getPhoneNumber());
+
+        // Order information
+        for (Drink drink : Cart.getCart().keySet()) {
+            pw.printf("Item: | %s | Quantity: | %d | Base Price: | %.2f\n", drink.getName(), Cart.getCart().get(drink), drink.getPrice());
+        }
+        pw.printf("Order total: | %.2f\n", Cart.getSubtotal() + 5.99 + (Cart.getSubtotal() + 5.99) * 0.053);
+        pw.println();
+        pw.flush();
+        pw.close();
     }
 
     private void initComponents() {
@@ -43,6 +78,7 @@ public class Checkout extends JPanel{
 
         // JButtons
         submitOrder = new JButton("Place your order");
+        submitOrder.addActionListener(new SubmitActionListener());
 
         // Adding components to panel
         add(submitOrder);
@@ -56,6 +92,13 @@ public class Checkout extends JPanel{
         // COULD POSSIBLY ADD:
         // Form to sign
         // Login button
+    }
+
+    private class SubmitActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            createOrder();
+        }
     }
 
     // GRADIENT BACKGROUND COLOR
