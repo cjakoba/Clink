@@ -16,6 +16,7 @@ public class Discovery extends JPanel {
     GridBagLayout layout = new GridBagLayout();
     GridBagConstraints gbc = new GridBagConstraints();
     JScrollPane scrollPane = new JScrollPane(this);
+    JSeparator separator;
     Menu menu;
     Drink drinkPanel;
 
@@ -64,8 +65,9 @@ public class Discovery extends JPanel {
             buttons.get(i).setPreferredSize(new Dimension(550, 100));
             gbc.fill = GridBagConstraints.HORIZONTAL;
             add(buttons.get(i), gbc);
-            JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
+            separator = new JSeparator(SwingConstants.HORIZONTAL);
             separator.setPreferredSize(new Dimension(400,3));
+            separator.setVisible(true);
             add(separator);
 
             // When clicking on a drink, enter its information screen
@@ -90,14 +92,24 @@ public class Discovery extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            // All buttons must be hid to allow for other panel to render properly
-            for (JButton button : buttons) {
-                button.setVisible(false);
-            }
-            //setLayout(layout);
 
+            // Get all the components within the panel
+            Component[] components = getComponents();
+
+            // If a component is scheduled to die, remove it
+            for (Component component : components) {
+                if (component instanceof JSeparator || component instanceof JButton) {
+                    remove(component);
+                }
+            }
+
+            // Add the specific drink information panel after killing previous panel's blocking components
             add(drink);
             drink.setVisible(true);
+
+            // Revalidation and repainting after removal and addition of components
+            revalidate();
+            repaint();
         }
     }
 
