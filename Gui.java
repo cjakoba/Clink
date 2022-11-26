@@ -28,6 +28,8 @@ public class Gui extends javax.swing.JFrame {
     public Gui() {
         setBackground(Color.WHITE);
         setTitle("CLINK");
+        ImageIcon icon = new ImageIcon("icons/1.png");
+        setIconImage(icon.getImage());
         discovery = new Discovery();
         cart = new Cart();
         initComponents();

@@ -18,6 +18,14 @@ class Cart extends JPanel {
         initComponents();
     }
 
+    // Determines total prices of all items and quantities in current cart state
+    public static double getSubtotal() {
+        double subtotal = 0.0;
+        for (Drink drink : cart.keySet()) {
+            subtotal += drink.getPrice() * cart.get(drink);
+        }
+        return subtotal;
+    }
 
     public static void addToCart(Drink drink) {
         Drink setDrink = null;
@@ -41,7 +49,21 @@ class Cart extends JPanel {
         }
     }
 
-    // Removes all quantities of a specific drink from the shopping cart
+    // Increases the quantity of a specific drink by one from the shopping cart interface
+    public static void increaseQuantity(Drink drink) {
+         addToCart(drink);
+    }
+
+    // Decreases the quantity of a specific drink by one from the shopping cart interface
+    public static void decreaseQuantity(Drink drink) {
+        if (cart.get(drink) > 1) {
+            cart.put(drink, cart.get(drink) - 1);
+        } else {
+            cart.remove(drink);
+        }
+    }
+
+    // Removes all quantities of a specific drink from the shopping cart interface
     public static void removeFromCart(Drink drink) {
         cart.remove(drink);
     }
@@ -69,27 +91,57 @@ class Cart extends JPanel {
             add(Box.createVerticalGlue()); // For vertical centering
         }
         else {
+            // Subtotal label
+            JLabel subtotal = new JLabel("Subtotal $" + String.format("%.2f", getSubtotal()));
+            subtotal.setFont(new Font(FONT, Font.PLAIN, 30));
+            subtotal.setForeground(Color.decode(TEXT_COLOR));
+            add(subtotal);
+
+            // Proceed to checkout
+            JButton checkout = new JButton("Proceed to checkout");
+            checkout.setFont(new Font(FONT, Font.PLAIN, 30));
+            checkout.setForeground(Color.decode(TEXT_COLOR));
+            checkout.addActionListener(new CheckoutActionListener());
+            add(checkout);
+
             for (Drink drink : cart.keySet()) {
                 Icon icon = new ImageIcon("icons/" + drink.getId() + ".png");
 
                 JLabel name = new JLabel(drink.getName());
+                name.setIcon(icon);
                 JLabel quantity = new JLabel(String.valueOf(cart.get(drink)));
+                JLabel price = new JLabel(String.format("%.2f", drink.getPrice() * cart.get(drink)));
+
                 // delete button
-                JLabel price = new JLabel(String.valueOf(drink.getPrice() * cart.get(drink)));
                 JButton delete = new JButton("Delete");
                 delete.addActionListener(new DeleteActionListener(drink));
                 add(delete);
                 delete.setVisible(true);
 
+                // increase quantity button
+                JButton plus = new JButton("+");
+                plus.addActionListener(new PlusActionListener(drink));
+                add(plus);
+                plus.setVisible(true);
+
+                // decrease quantity button
+                JButton minus = new JButton("-");
+                minus.addActionListener(new MinusActionListener(drink));
+
+
+                // Don't show decrease quantity button unless the quantity of drinks is at least 2 or more
+                minus.setVisible(false);
+                if (cart.get(drink) > 1) {
+                    add(minus);
+                    minus.setVisible(true);
+                }
+
                 add(name);
                 add(quantity);
                 add(price);
-
-                name.setIcon(icon);
-                name.setVisible(true);
-                quantity.setVisible(true);
-                price.setVisible(true);
             }
+
+
         }
     }
 
@@ -105,6 +157,54 @@ class Cart extends JPanel {
             Cart.removeFromCart(drink);
             removeAll();
             initComponents();
+            repaint();
+            revalidate();
+        }
+    }
+
+    private class PlusActionListener implements ActionListener {
+        Drink drink;
+
+        public PlusActionListener(Drink drink) {
+            this.drink = drink;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Cart.increaseQuantity(drink);
+            removeAll();
+            initComponents();
+            repaint();
+            revalidate();
+        }
+    }
+
+    private class MinusActionListener implements ActionListener {
+        Drink drink;
+
+        public MinusActionListener(Drink drink) {
+            this.drink = drink;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Cart.decreaseQuantity(drink);
+            removeAll();
+            initComponents();
+            repaint();
+            revalidate();
+        }
+    }
+
+    // When clicking the checkout button
+    private class CheckoutActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Kill all components from the cart
+            removeAll();
+            // Create a new customer
+            Customer c = new Customer();
+            add(c);
             repaint();
             revalidate();
         }
