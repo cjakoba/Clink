@@ -1,24 +1,69 @@
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Gui extends javax.swing.JFrame {
     GridBagLayout layout = new GridBagLayout();
+    JLabel title = new JLabel("CLINK");
     Discovery discovery;
     Cart cart;
 
+    // Swing Timer
+    private Timer timer;
+    private int counter = 3; // the duration in seconds
+    private int delay = 1000; // every 1 second
+
     public Gui() {
+
         discovery = new Discovery();
         cart = new Cart();
         initComponents();
+
+        // SPLASH PAGE TITLE
+        mainPanel.add(title, BorderLayout.CENTER);
+        title.setVisible(true);
+        title.setFont(new Font("Serif", Font.BOLD, 20));
+        title.setForeground(Color.WHITE);
+
         mainPanel.setLayout(layout);
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
         c.gridy = 0;
         mainPanel.add(discovery, c);
         mainPanel.add(cart, c);
+
+
+
+        // Hide everything until the timer is done
         discovery.setVisible(false);
         cart.setVisible(false);
+        jButton1.setVisible(false);
+        jButton2.setVisible(false);
+        ActionListener action = new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent event)
+            {
+                if(counter == 0)
+                {
+                    timer.stop();
+                    title.setVisible(false);
+                    discovery.refresh();
+                    discovery.setVisible(true);
+                    jButton1.setVisible(true);
+                    jButton2.setVisible(true);
+                }
+                else
+                {
+                    counter--;
+                }
+            }
+        };
+        timer = new Timer(delay, action);
+        timer.setInitialDelay(0);
+        timer.start();
     }
 
     private void initComponents() {
@@ -26,11 +71,14 @@ public class Gui extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         mainPanel = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
+        setLayout(new BorderLayout());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(550, 1000));
         setPreferredSize(new java.awt.Dimension(550, 1000));
         setResizable(false);
+
+
 
         jButton1.setText("Cart");
         jButton1.setMaximumSize(new java.awt.Dimension(100, 75));
@@ -91,8 +139,6 @@ public class Gui extends javax.swing.JFrame {
                                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap())
         );
-
-        pack();
     }
 
     // When clicking the cart button
