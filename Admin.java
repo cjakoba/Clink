@@ -109,8 +109,14 @@ public Admin(String menuname) throws IOException {
 
     public void initComponents() throws IOException {
         removeAll();
-        // Load up the current menu
+        // Load a new menu
         menu = new Menu();
+        if (drinks != null) {
+            drinks.removeAll(drinks);
+        }
+        if (buttons != null) {
+            buttons.removeAll(buttons);
+        }
         drinks = menu.getDrinks();
 
         setBackground(Color.decode(PANEL_BACKGROUND_COLOR));
@@ -149,6 +155,9 @@ public Admin(String menuname) throws IOException {
             JButton delete = new JButton("Delete");
             delete.addActionListener(new DeleteActionListener(drinks.get(i)));
             add(delete);
+
+            JButton edit = new JButton("Edit");
+            edit.addActionListener(new EditActionListener(drinks.get(i)));
 
             gbc.fill = GridBagConstraints.HORIZONTAL;
             add(buttons.get(i), gbc);
@@ -201,7 +210,7 @@ public Admin(String menuname) throws IOException {
         }
     }
 
-
+    // When deleting a specific drink from the menu
     private class DeleteActionListener implements ActionListener {
         Drink drink;
 
@@ -211,7 +220,9 @@ public Admin(String menuname) throws IOException {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            // Remove drink from the arraylist containing drinks from original menu
             removeDrink(drink);
+            // Save the arraylist containing drinks to menu.txt file
             saveMenu();
             removeAll();
 
@@ -225,45 +236,12 @@ public Admin(String menuname) throws IOException {
         }
     }
 
-    private class EditNameActionListener implements ActionListener {
+    // When editing a specific drink from the menu
+    private class EditActionListener implements ActionListener {
         ArrayList<Drink> drinks;
         Drink drink;
 
-        public EditNameActionListener(Drink drink) {
-            this.drink = drink;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Cart.removeFromCart(drink);
-            removeAll();
-            //initComponents();
-            repaint();
-            revalidate();
-        }
-    }
-
-    private class EditDescriptionActionListener implements ActionListener {
-        Drink drink;
-
-        public EditDescriptionActionListener(Drink drink) {
-            this.drink = drink;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Cart.removeFromCart(drink);
-            removeAll();
-            //initComponents();
-            repaint();
-            revalidate();
-        }
-    }
-
-    private class EditPriceActionListener implements ActionListener {
-        Drink drink;
-
-        public EditPriceActionListener(Drink drink) {
+        public EditActionListener(Drink drink) {
             this.drink = drink;
         }
 
