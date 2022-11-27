@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
@@ -21,15 +22,14 @@ public class Discovery extends JPanel {
     Menu menu;
     Drink drinkPanel;
 
-    public Discovery() {
+    public Discovery() throws IOException {
         initComponents();
     }
 
-    private void initComponents() {
+    private void initComponents() throws IOException {
         removeAll();
         // Load up the current menu
         menu = new Menu();
-        menu.save();
 
         setBackground(Color.decode(PANEL_BACKGROUND_COLOR));
         setEnabled(false);
@@ -47,7 +47,6 @@ public class Discovery extends JPanel {
         // Reads through menu, adds items as buttons to Discovery panel
         for (Drink drink : menu.getDrinks()) {
             drinks.add(drink);
-            System.out.println(drink.getId());
             buttons.add(new JButton(drink.getName()));
         }
 
@@ -131,7 +130,7 @@ public class Discovery extends JPanel {
 
 
     // Sets the state of the panel to when the app was first started
-    public void refresh() {
+    public void refresh() throws IOException {
         removeAll();
         for (JButton button : buttons) {
             button.setVisible(true);

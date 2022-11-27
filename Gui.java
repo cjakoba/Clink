@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class Gui extends javax.swing.JFrame {
     private boolean adminView;
@@ -27,7 +28,7 @@ public class Gui extends javax.swing.JFrame {
     private int counter = 3; // the duration in seconds
     private int delay = 1000; // every 1 second
 
-    public Gui(boolean adminView) {
+    public Gui(boolean adminView) throws IOException {
         this.adminView = adminView;
         setBackground(Color.WHITE);
         setTitle("CLINK");
@@ -63,6 +64,7 @@ public class Gui extends javax.swing.JFrame {
         jButton1.setVisible(false);
         jButton2.setVisible(false);
         adminTab.setVisible(false);
+        admin.setVisible(false);
         ActionListener action = new ActionListener()
         {
             @Override
@@ -72,7 +74,11 @@ public class Gui extends javax.swing.JFrame {
                 {
                     timer.stop();
                     title.setVisible(false);
-                    discovery.refresh();
+                    try {
+                        discovery.refresh();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     adminTab.setVisible(true);
                     scrollPane.setVisible(true);
                     discovery.setVisible(true);
@@ -90,7 +96,7 @@ public class Gui extends javax.swing.JFrame {
         timer.start();
     }
 
-    private void initComponents() {
+    private void initComponents() throws IOException {
         // Sets the background color of the main JFrame
         getContentPane().setBackground(Color.decode(BOTTOM_BAR_BACKGROUND_COLOR));
 
@@ -119,8 +125,6 @@ public class Gui extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(550, 1000));
         setPreferredSize(new java.awt.Dimension(550, 1000));
         setResizable(false);
-
-
 
         // CART BUTTON STYLING
         jButton1.setText("Cart");
@@ -176,7 +180,11 @@ public class Gui extends javax.swing.JFrame {
         jButton2.setPreferredSize(new java.awt.Dimension(100, 75));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                try {
+                    jButton2ActionPerformed(evt);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -198,6 +206,17 @@ public class Gui extends javax.swing.JFrame {
         adminTab.setMaximumSize(new java.awt.Dimension(100, 75));
         adminTab.setMinimumSize(new java.awt.Dimension(100, 75));
         adminTab.setPreferredSize(new java.awt.Dimension(100, 75));
+
+        // Admin button styling
+        adminTab.setBackground(Color.decode(BOTTOM_BUTTON_BACKGROUND_COLOR));
+        adminTab.setForeground(Color.decode(BOTTOM_BUTTON_TEXT_COLOR));
+        adminTab.setActionCommand("discoveryButton");
+        adminTab.setOpaque(true);
+        // border removal - blends button into component behind it
+        adminTab.setBorderPainted(false);
+        adminTab.setFocusPainted(false);
+        adminTab.setContentAreaFilled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -239,7 +258,7 @@ public class Gui extends javax.swing.JFrame {
     }
 
     // DISCOVERY BUTTON ACTION PERFORMED
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) throws IOException {
         discovery.refresh();
         discovery.setVisible(true);
         scrollPane.setVisible(true);

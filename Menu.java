@@ -5,8 +5,12 @@ import java.util.Scanner;
 public class Menu {
     private ArrayList<Drink> drinks = new ArrayList<>();
 
-    // Readded the save so that the menu file can be read into the GUI
-    public void save() {
+    public Menu() throws IOException {
+        read();
+    }
+
+    // Read in menu into the GUI
+    public void read() throws IOException {
         FileReader fr = null;
         try {
             fr = new FileReader("./menu.txt");
@@ -17,14 +21,7 @@ public class Menu {
         while (file.hasNext()) {
             drinks.add(new Drink(file));
         }
-    }
-
-    public void printDrinks() {
-        for (Drink d : drinks) {
-            System.out.println(d.getName());
-            System.out.println(d.getDescription());
-            System.out.println(d.getPrice());
-        }
+        fr.close();
     }
 
     public ArrayList<Drink> getDrinks() {

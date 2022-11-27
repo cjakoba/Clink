@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.PrintWriter;
 import java.util.Scanner;
 import javax.swing.*;
 
@@ -31,6 +32,28 @@ public class Drink extends JPanel {
         id = Integer.parseInt(in.nextLine());
         in.nextLine();
         initComponents();
+    }
+
+    // SETTERS
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void save(PrintWriter out) {
+        out.println(name);
+        out.println(description);
+        out.println(price);
+        out.println(id);
+        out.println();
+        out.flush();
     }
 
     private void initComponents() {
