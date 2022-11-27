@@ -9,18 +9,32 @@ import java.util.Scanner;
 
 public class Admin extends JPanel {
 
+    // UI COMPONENTS
+    private static final String BOTTOM_BUTTON_BACKGROUND_COLOR = "#173d56";
+    private static final String BOTTOM_BUTTON_TEXT_COLOR = "#e6b37a";
+    private static String TEXTFIELD_BACKGROUND_COLOR = "#173d56";
+    private static String TEXTFIELD_BORDER_COLOR = "#224a6c";
+    private static String TEXTFIELD_TEXT_COLOR = "#FFFFFF";
     private static final String PANEL_BACKGROUND_COLOR = "#224a6c";
     private static final String DRINK_BUTTON_BACKGROUND_COLOR = "#3c4975";
     private static final String DRINK_BUTTON_TEXT_COLOR = "#FFFFFF";
+
+
     private String menuname;
     private ArrayList<JButton> buttons = new ArrayList<>();
     private ArrayList<Drink> drinks;
+
+
     GridBagLayout layout = new GridBagLayout();
     GridBagConstraints gbc = new GridBagConstraints();
     JScrollPane scrollPane = new JScrollPane(this);
     JSeparator separator;
     Menu menu;
     Drink drinkPanel;
+
+    JTextArea name;
+    JTextArea description;
+    JTextArea price;
 
 ArrayList<Customer>mocktails;
 
@@ -132,6 +146,11 @@ public Admin(String menuname) throws IOException {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setBounds(50, 30, 300, 50);
 
+        // Add drink button
+        JButton addDrink = createButton("+");
+        addDrink.addActionListener(new EditActionListener());
+        add(addDrink);
+
         // Reads through menu, adds items as buttons to Discovery panel
         for (Drink drink : drinks) {
             buttons.add(new JButton(drink.getName()));
@@ -158,6 +177,7 @@ public Admin(String menuname) throws IOException {
 
             JButton edit = new JButton("Edit");
             edit.addActionListener(new EditActionListener(drinks.get(i)));
+            add(edit);
 
             gbc.fill = GridBagConstraints.HORIZONTAL;
             add(buttons.get(i), gbc);
@@ -238,18 +258,76 @@ public Admin(String menuname) throws IOException {
 
     // When editing a specific drink from the menu
     private class EditActionListener implements ActionListener {
-        ArrayList<Drink> drinks;
         Drink drink;
 
         public EditActionListener(Drink drink) {
             this.drink = drink;
         }
 
+        public EditActionListener() {
+        }
+
         @Override
         public void actionPerformed(ActionEvent e) {
-            Cart.removeFromCart(drink);
             removeAll();
-            //initComponents();
+            GridBagConstraints c = new GridBagConstraints();
+            JPanel editPanel = createPanel();
+
+            // JButtons
+            JButton back = createButton("<-");
+            JButton save = createButton("Save");
+            back.addActionListener(new BackActionListener());
+
+
+            // JTextAreas
+            if (drink != null) {
+                name = createTextField(drink.getName());
+                description = createTextField(drink.getDescription());
+                price = createTextField(String.format("%.2f", drink.getPrice()));
+                save.addActionListener(new SaveActionListener(drink));
+            } else {
+                name = createTextField("Name");
+                description = createTextField("Description");
+                price = createTextField("0.00");
+                save.addActionListener(new SaveActionListener(drink));
+            }
+            name.setPreferredSize(new Dimension(450, 30));
+            description.setPreferredSize(new Dimension(450, 300));
+            price.setPreferredSize(new Dimension(450, 30));
+
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.gridx = 0;
+            c.gridy = 0;
+            c.weightx = 0.5;
+            editPanel.add(back, c);
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.gridx = 1;
+            c.gridy = 0;
+            c.weightx = 0.5;
+            editPanel.add(save, c);
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.gridwidth = 2;
+            c.gridx = 0;
+            c.gridy = 1;
+            c.weightx = 0.5;
+            editPanel.add(name, c);
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.gridx = 0;
+            c.gridy = 2;
+            c.weightx = 0.5;
+            editPanel.add(description, c);
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.gridx = 0;
+            c.gridy = 3;
+            c.weightx = 0.5;
+            editPanel.add(price, c);
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.gridx = 1;
+            c.gridy = 4;
+            c.weightx = 0.5;
+
+            add(editPanel);
+
             repaint();
             revalidate();
         }
@@ -272,6 +350,53 @@ public Admin(String menuname) throws IOException {
         }
     }
 
+    private class BackActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            removeAll();
+            try {
+                initComponents();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            repaint();
+            revalidate();
+        }
+    }
+
+    private class SaveActionListener implements ActionListener {
+        Drink drink;
+
+        public SaveActionListener(Drink drink) {
+            this.drink = drink;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            removeAll();
+
+            // Receive modified data, set as drinks instance variables
+            if (drink == null) {
+                drink = new Drink();
+                drinks.add(drink);
+            }
+
+            drink.setName(name.getText().toString());
+            drink.setDescription(description.getText().toString());
+            drink.setPrice(Double.parseDouble(price.getText().toString()));
+            // Then save the updated drink
+            saveMenu();
+            // Go back to admin screen after editing is saved to refresh updated menu
+            try {
+                initComponents();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            repaint();
+            revalidate();
+        }
+    }
+
     // GRADIENT BACKGROUND COLOR
     @Override
     protected void paintComponent(Graphics g) {
@@ -285,6 +410,70 @@ public Admin(String menuname) throws IOException {
         GradientPaint gp = new GradientPaint(0, 0, color1, 0, h, color2);
         g2d.setPaint(gp);
         g2d.fillRect(0, 0, w, h);
+    }
+
+
+    // Creates a new panel
+    public JPanel createPanel() {
+        JPanel panel = new JPanel() {
+            // GRADIENT BACKGROUND COLOR
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+                int w = getWidth();
+                int h = getHeight();
+                Color color1 = Color.decode("#67497c");
+                Color color2 = Color.decode("#224a6c");
+                GradientPaint gp = new GradientPaint(0, 0, color1, 0, h, color2);
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, w, h);
+            }
+        };
+
+        // Panel settings
+        setMaximumSize(new Dimension(550, 900));
+        setMinimumSize(new Dimension(550, 900));
+        setPreferredSize(new Dimension(550, 900));
+
+        // Panel layout
+        GridBagLayout gbl = new GridBagLayout();
+        panel.setLayout(gbl);
+
+        return panel;
+    }
+
+    // Creates a new button
+    public JButton createButton(String text) {
+        JButton button = new JButton();
+
+        // BUTTON STYLING
+        button.setText(text);
+        button.setBackground(Color.decode(BOTTOM_BUTTON_BACKGROUND_COLOR));
+        button.setForeground(Color.decode(BOTTOM_BUTTON_TEXT_COLOR));
+        button.setOpaque(true);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setMaximumSize(new Dimension(100, 75));
+        button.setMinimumSize(new Dimension(100, 75));
+        button.setPreferredSize(new Dimension(100, 75));
+
+        return button;
+    }
+
+    public JTextArea createTextField(String text) {
+        JTextArea textField = new JTextArea(text);
+
+        textField.setBackground(Color.decode(TEXTFIELD_BACKGROUND_COLOR));
+        textField.setBorder(BorderFactory.createLineBorder(Color.decode(TEXTFIELD_BORDER_COLOR)));
+        textField.setForeground(Color.decode(TEXTFIELD_TEXT_COLOR));
+        textField.setColumns(25);
+        textField.setFont(new Font("Helvetica", Font.PLAIN, 22));
+        textField.setWrapStyleWord(true);
+        textField.setLineWrap(true);
+
+        return textField;
     }
 }
 
