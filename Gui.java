@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Gui extends javax.swing.JFrame {
-
+    private boolean adminView;
 
     private static final String PANEL_BACKGROUND_COLOR = "#224a6c";
     private static final String TITLE_COLOR = "#e6b37a";
@@ -16,7 +16,9 @@ public class Gui extends javax.swing.JFrame {
 
     GridBagLayout layout = new GridBagLayout();
     JLabel title = new JLabel("CLINK");
+    JButton adminTab;
     Discovery discovery;
+    Admin admin;
     JScrollPane scrollPane;
     Cart cart;
 
@@ -25,7 +27,8 @@ public class Gui extends javax.swing.JFrame {
     private int counter = 3; // the duration in seconds
     private int delay = 1000; // every 1 second
 
-    public Gui() {
+    public Gui(boolean adminView) {
+        this.adminView = adminView;
         setBackground(Color.WHITE);
         setTitle("CLINK");
         ImageIcon icon = new ImageIcon("icons/1.png");
@@ -59,6 +62,7 @@ public class Gui extends javax.swing.JFrame {
         cart.setVisible(false);
         jButton1.setVisible(false);
         jButton2.setVisible(false);
+        adminTab.setVisible(false);
         ActionListener action = new ActionListener()
         {
             @Override
@@ -69,6 +73,7 @@ public class Gui extends javax.swing.JFrame {
                     timer.stop();
                     title.setVisible(false);
                     discovery.refresh();
+                    adminTab.setVisible(true);
                     scrollPane.setVisible(true);
                     discovery.setVisible(true);
                     jButton1.setVisible(true);
@@ -90,6 +95,7 @@ public class Gui extends javax.swing.JFrame {
         getContentPane().setBackground(Color.decode(BOTTOM_BAR_BACKGROUND_COLOR));
 
         jButton1 = new javax.swing.JButton();
+
         mainPanel = new javax.swing.JPanel() {
             @Override
             public void paintComponent(Graphics g) {
@@ -105,6 +111,7 @@ public class Gui extends javax.swing.JFrame {
                 g2d.fillRect(0, 0, w, h);
             }
         };
+
         jButton2 = new javax.swing.JButton();
         setLayout(new BorderLayout());
 
@@ -173,6 +180,24 @@ public class Gui extends javax.swing.JFrame {
             }
         });
 
+        adminTab = new JButton("Admin");
+        adminTab.setVisible(false);
+        if (adminView) {
+            admin = new Admin();
+            adminTab.setVisible(true);
+            mainPanel.add(admin);
+            mainPanel.add(adminTab);
+
+            adminTab.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    adminTabActionPerformed(e);
+                }
+            });
+        }
+        adminTab.setMaximumSize(new java.awt.Dimension(100, 75));
+        adminTab.setMinimumSize(new java.awt.Dimension(100, 75));
+        adminTab.setPreferredSize(new java.awt.Dimension(100, 75));
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -183,6 +208,9 @@ public class Gui extends javax.swing.JFrame {
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 338, Short.MAX_VALUE)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap()
+                                .addComponent(adminTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 338, Short.MAX_VALUE).addContainerGap()
                                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -192,9 +220,13 @@ public class Gui extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(adminTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap())
+
         );
+
+
     }
 
     // CART BUTTON ACTION PERFORMED
@@ -203,6 +235,7 @@ public class Gui extends javax.swing.JFrame {
         cart.setVisible(true);
         discovery.setVisible(false);
         scrollPane.setVisible(false);
+        admin.setVisible(false);
     }
 
     // DISCOVERY BUTTON ACTION PERFORMED
@@ -210,6 +243,15 @@ public class Gui extends javax.swing.JFrame {
         discovery.refresh();
         discovery.setVisible(true);
         scrollPane.setVisible(true);
+        cart.setVisible(false);
+        admin.setVisible(false);
+    }
+
+    private void adminTabActionPerformed(ActionEvent e) {
+        //admin.refresh();
+        admin.setVisible(true);
+        discovery.setVisible(false);
+        scrollPane.setVisible(false);
         cart.setVisible(false);
     }
 

@@ -1,10 +1,10 @@
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Admin
-{
+public class Admin extends JPanel {
 private String menuname;
 
 ArrayList<Customer>mocktails;

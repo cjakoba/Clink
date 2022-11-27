@@ -26,7 +26,9 @@ public class Main {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Gui().setVisible(true);
+                // To run as admin, set GUI constructor to true
+                // To run as customer, set GUI constructor to false
+                new Gui(true).setVisible(true);
             }
         });
     }
