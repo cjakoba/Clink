@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -11,6 +12,7 @@ public class Checkout extends JPanel{
     private Customer customer;
     private LocalDateTime orderDate;
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    LocalDate today = LocalDate.now();
 
     // UI COMPONENTS
     // JLabels
@@ -35,7 +37,7 @@ public class Checkout extends JPanel{
     public void createOrder() {
         String fileName = customer.getFirstName() + customer.getLastName();
         orderDate = LocalDateTime.now();
-        FileWriter fw  = null;
+        FileWriter fw = null;
         BufferedWriter bw = null;
         PrintWriter pw = null;
 
@@ -48,7 +50,6 @@ public class Checkout extends JPanel{
         }
         // Date
         pw.println(dtf.format(orderDate));
-
         // Customer information
         pw.printf("%s | %s \n", customer.getFirstName(), customer.getLastName());
         pw.printf("%s | %s |%s\n", customer.getAddress(), customer.getEmail(), customer.getPhoneNumber());
@@ -94,10 +95,57 @@ public class Checkout extends JPanel{
         // Login button
     }
 
+    public void addProfitsToFile() throws IOException {
+        File profits = new File("order_history/profits.txt");
+        boolean foundDate = false;
+        String date = String.valueOf(today);
+        profits.createNewFile();
+        double currentProfits = 0.0;
+        String line = "";
+        FileReader fr = null;
+        BufferedReader br = null;
+        StringBuffer input = new StringBuffer();
+        try {
+            fr = new FileReader("order_history/profits.txt");
+            br = new BufferedReader(fr);
+        } catch (IOException e) {
+            System.out.println("Profits file not found.");
+        }
+        boolean nextLine = false;
+        while ((line = br.readLine()) != null) {
+            if (nextLine) {
+                nextLine = false;
+                currentProfits = Double.parseDouble(line);
+            }
+            if (line.equals(date)) {
+                nextLine = true;
+                foundDate = true;
+            }
+            input.append(line);
+            input.append("\n");
+        }
+        br.close();
+        String buffer = input.toString();
+        if (!foundDate) {
+            buffer = date + "\n" + String.valueOf(Cart.getSubtotal() + 5.99 + ((Cart.getSubtotal() + 5.99) * 0.053)) + "\n" + buffer;
+        } else {
+            buffer = buffer.replace(String.valueOf(currentProfits), String.valueOf(currentProfits + Cart.getSubtotal() + 5.99 + ((Cart.getSubtotal() + 5.99) * 0.053)));
+        }
+        FileOutputStream fileOut = new FileOutputStream("order_history/profits.txt");
+        fileOut.write(buffer.getBytes());
+        fileOut.close();
+        }
+
+
     private class SubmitActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             createOrder();
+            try {
+                addProfitsToFile();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
