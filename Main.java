@@ -5,7 +5,6 @@ public class Main {
     public static void main(String[] args) {
         Cart cart = new Cart();
 
-
         // GUI INITIALIZATION
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

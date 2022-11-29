@@ -122,8 +122,8 @@ public class Gui extends javax.swing.JFrame {
         setLayout(new BorderLayout());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(550, 1000));
-        setPreferredSize(new java.awt.Dimension(550, 1000));
+        setMinimumSize(new java.awt.Dimension(550, 700));
+        setPreferredSize(new java.awt.Dimension(550, 700));
         setResizable(false);
 
         // CART BUTTON STYLING
@@ -147,9 +147,9 @@ public class Gui extends javax.swing.JFrame {
 
         // MAIN PANEL STYLING
         mainPanel.setBackground(Color.decode(PANEL_BACKGROUND_COLOR));
-        mainPanel.setMaximumSize(new java.awt.Dimension(550, 900));
-        mainPanel.setMinimumSize(new java.awt.Dimension(550, 900));
-        mainPanel.setPreferredSize(new java.awt.Dimension(550, 900));
+        mainPanel.setMaximumSize(new java.awt.Dimension(550, 600));
+        mainPanel.setMinimumSize(new java.awt.Dimension(550, 600));
+        mainPanel.setPreferredSize(new java.awt.Dimension(550, 600));
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
 
