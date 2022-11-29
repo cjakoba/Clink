@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -42,6 +44,7 @@ public class Checkout extends JPanel{
         PrintWriter pw = null;
 
         try {
+            Files.createDirectories(Path.of("orders"));
             fw = new FileWriter("orders/" + fileName + ".txt");
             bw = new BufferedWriter(fw);
             pw = new PrintWriter(bw);
@@ -96,6 +99,7 @@ public class Checkout extends JPanel{
     }
 
     public void addProfitsToFile() throws IOException {
+        Files.createDirectories(Path.of("order_history"));
         File profits = new File("order_history/profits.txt");
         boolean foundDate = false;
         String date = String.valueOf(today);
