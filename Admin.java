@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Admin extends JPanel {
@@ -146,8 +145,9 @@ public Admin(String menuname) throws IOException {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setBounds(50, 30, 300, 50);
 
+
         // Add drink button
-        JButton addDrink = createButton("+");
+        JButton addDrink = createButton("Add Drink to Menu");
         addDrink.addActionListener(new EditActionListener());
         add(addDrink);
 
@@ -274,7 +274,7 @@ public Admin(String menuname) throws IOException {
             JPanel editPanel = createPanel();
 
             // JButtons
-            JButton back = createButton("<-");
+            JButton back = createButton("Back");
             JButton save = createButton("Save");
             back.addActionListener(new BackActionListener());
 
