@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -28,11 +29,18 @@ public class Main {
             public void run() {
                 // To run as admin, set GUI constructor to true
                 // To run as customer, set GUI constructor to false
+                String response;
+                Scanner in = new Scanner(System.in);
+                System.out.println("Run as admin? [Y/N]");
+                response = in.nextLine().toLowerCase();
                 try {
-                    new Gui(true).setVisible(true);
+                    if(response.equalsIgnoreCase("y")) {
+                        new Gui(true).setVisible(true);
+                    }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+
             }
         });
     }
