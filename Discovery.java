@@ -35,9 +35,9 @@ public class Discovery extends JPanel {
         setEnabled(false);
 
         // Panel settings
-        setMaximumSize(new java.awt.Dimension(550, 2500));
-        setMinimumSize(new java.awt.Dimension(550, 2500));
-        setPreferredSize(new java.awt.Dimension(550, 2500));
+        setMaximumSize(new java.awt.Dimension(550, 3050));
+        setMinimumSize(new java.awt.Dimension(550, 3050));
+        setPreferredSize(new java.awt.Dimension(550, 3050));
 
         // Scroll pane settings
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
