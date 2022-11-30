@@ -8,7 +8,8 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class Checkout extends JPanel{
     private Customer customer;
@@ -36,7 +37,7 @@ public class Checkout extends JPanel{
     // Saves the customers order to two text files,
     // one which lists orders waiting to be fulfilled (DONE)
     // another which lists all orders for tax purposes (NEEDS TO BE IMPLEMENTED STILL)
-    public void createOrder() {
+    public void createOrder() throws IOException {
         String fileName = customer.getFirstName() + customer.getLastName();
         orderDate = LocalDateTime.now();
         FileWriter fw = null;
@@ -62,6 +63,7 @@ public class Checkout extends JPanel{
             pw.printf("Item: | %s | Quantity: | %d | Base Price: | %.2f\n", drink.getName(), Cart.getCart().get(drink), drink.getPrice());
         }
         pw.printf("Order total: | %.2f\n", Cart.getSubtotal() + 5.99 + (Cart.getSubtotal() + 5.99) * 0.053);
+        pw.printf("ID: | %s\n", String.valueOf(getNextID()));
         pw.println();
         pw.flush();
         pw.close();
@@ -96,6 +98,44 @@ public class Checkout extends JPanel{
         // COULD POSSIBLY ADD:
         // Form to sign
         // Login button
+    }
+
+    // Finds the appropriate ID number to assign new customer order by going through previous orders
+    public int getNextID() throws IOException {
+        int orderID = -1;
+        File directoryPath = new File("orders");
+        boolean hasID = false;
+        String line;
+        String id = "";
+        int intID;
+        FilenameFilter textFileFilter = (dir, name) -> name.toLowerCase().endsWith(".txt");
+        for (String s : Arrays.asList(Objects.requireNonNull(directoryPath.list(textFileFilter)))) {
+            FileReader fr = null;
+            BufferedReader br = null;
+            try {
+                fr = new FileReader("orders/" + s);
+                br = new BufferedReader(fr);
+            } catch (FileNotFoundException e) {
+                System.out.println("File loading error!");
+            }
+            while ((line = br.readLine()) != null) {
+                if (line.contains("ID: | ")) {
+                    id = line;
+                    hasID = true;
+                    System.out.println("line is: " + line);
+                }
+            }
+            if (hasID) {
+                id = id.replaceAll("[^\\d.]", "");
+                intID = Integer.parseInt(id);
+                if (intID > orderID) {
+                    orderID = intID;
+                }
+            }
+            br.close();
+        }
+        orderID++;
+        return orderID;
     }
 
     public void addProfitsToFile() throws IOException {
@@ -138,14 +178,14 @@ public class Checkout extends JPanel{
         FileOutputStream fileOut = new FileOutputStream("order_history/profits.txt");
         fileOut.write(buffer.getBytes());
         fileOut.close();
-        }
+    }
 
 
     private class SubmitActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            createOrder();
             try {
+                createOrder();
                 addProfitsToFile();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
@@ -168,3 +208,4 @@ public class Checkout extends JPanel{
         g2d.fillRect(0, 0, w, h);
     }
 }
+
