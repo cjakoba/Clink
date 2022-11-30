@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class Drink extends JPanel {
 
-    private static final String FONT = "helvetica";
+    private static final String FONT = "times new roman";
 
     GridBagLayout layout = new GridBagLayout();
     GridBagConstraints constraints = new GridBagConstraints();
@@ -64,7 +64,6 @@ public class Drink extends JPanel {
         setPreferredSize(new java.awt.Dimension(550, 900));
         String html = "<html><body style='width: %1spx'>%1s";
         Icon icon = new ImageIcon("icons/Stock.jpg");
-
         JLabel jl1 = new JLabel(String.valueOf(this.name));
         JLabel jl2 = new JLabel(String.format(html, 300, description));
         JLabel jl3 = new JLabel(String.valueOf(price));
