@@ -8,11 +8,12 @@ import java.util.HashMap;
 class Cart extends JPanel {
 
     private static final String PANEL_BACKGROUND_COLOR = "#224a6c";
-    private static final String FONT = "helvetica";
+    private static final String FONT = "times new roman";
     private static final String TEXT_COLOR = "#e6b37a";
 
     private static HashMap<Drink, Integer> cart = new HashMap<>();
     private static ArrayList<Drink> drinks = new ArrayList<>();
+    JScrollPane scrollPane = new JScrollPane(this);
 
     public Cart() {
         initComponents();
@@ -84,6 +85,10 @@ class Cart extends JPanel {
         setMinimumSize(new java.awt.Dimension(550, 900));
         setPreferredSize(new java.awt.Dimension(550, 900));
 
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBounds(50, 30, 300, 50);
+
         // Label for an empty cart
         if (cart.size() == 0) {
             JLabel empty = new JLabel("Empty. Its lonely in here...");
@@ -117,6 +122,8 @@ class Cart extends JPanel {
                 name.setIcon(icon);
                 JLabel quantity = new JLabel(String.valueOf(cart.get(drink)));
                 JLabel price = new JLabel(String.format("%.2f", drink.getPrice() * cart.get(drink)));
+                quantity.setFont(new Font(FONT, Font.PLAIN, 30));
+                price.setFont(new Font(FONT, Font.PLAIN, 30));
 
                 // delete button
                 JButton delete = new JButton("Delete");
