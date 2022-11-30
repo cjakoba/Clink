@@ -1,8 +1,20 @@
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Main {
+public class Main extends JLabel implements ActionListener {
+    static JButton b;
+    static JButton n;
+    static JFrame f;
+    static JLabel l;
+    static JTextField t;
+    Main()
+    {
+
+    }
     public static void main(String[] args) {
         Cart cart = new Cart();
 
@@ -24,24 +36,46 @@ public class Main {
             java.util.logging.Logger.getLogger(Gui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                // To run as admin, set GUI constructor to true
-                // To run as customer, set GUI constructor to false
-                String response;
-                Scanner in = new Scanner(System.in);
-                System.out.println("Run as admin? [Y/N]");
-                response = in.nextLine().toLowerCase();
-                try {
-                    if(response.equalsIgnoreCase("y")) {
-                        new Gui(true).setVisible(true);
-                    }
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+        f = new JFrame("Admin?");
+        b = new JButton("Enter");
+        //n = new JButton("No");
+        l = new JLabel();
+        Main te = new Main();
+        b.addActionListener(te);
+        t = new JTextField(16);
+        JPanel p = new JPanel();
 
-            }
-        });
+        p.add(l);
+        //p.add(n);
+        l.setText("Run as admin? [Yes/No]");
+        p.add(b);
+        p.add(t);
+        f.add(p);
+        f.setSize(300, 300);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.getContentPane().setLayout(new BoxLayout(f.getContentPane(), BoxLayout.Y_AXIS));
+        f.show();
+        /* Create and display the form */
     }
-}
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String response = e.getActionCommand();
+        l.setText(t.getText());
+        String text = t.getText();
+
+
+            if(text.equals("yes")) {
+                try {
+                    new Gui(true).setVisible(true);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+            if(text.equals("no"))
+            {
+                JOptionPane.showMessageDialog(null, "No access to Admin View");
+            }
+
+}}
