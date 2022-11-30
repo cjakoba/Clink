@@ -7,10 +7,13 @@ import java.util.Scanner;
 
 public class Main extends JLabel implements ActionListener {
     static JButton b;
-    static JButton n;
+    //static JButton n;
     static JFrame f;
     static JLabel l;
     static JTextField t;
+    private static final String PANEL_BACKGROUND_COLOR = "#67497c";
+
+
     Main()
     {
 
@@ -54,6 +57,7 @@ public class Main extends JLabel implements ActionListener {
         f.setSize(300, 300);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.getContentPane().setLayout(new BoxLayout(f.getContentPane(), BoxLayout.Y_AXIS));
+        p.setBackground(Color.decode(PANEL_BACKGROUND_COLOR));
         f.show();
         /* Create and display the form */
     }
@@ -62,11 +66,12 @@ public class Main extends JLabel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String response = e.getActionCommand();
+
         l.setText(t.getText());
         String text = t.getText();
 
 
-            if(text.equals("yes")) {
+            if(text.equalsIgnoreCase("yes")) {
                 try {
                     new Gui(true).setVisible(true);
                 } catch (IOException ex) {
@@ -76,6 +81,7 @@ public class Main extends JLabel implements ActionListener {
             if(text.equals("no"))
             {
                 JOptionPane.showMessageDialog(null, "No access to Admin View");
+
             }
 
 }}
