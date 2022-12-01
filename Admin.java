@@ -124,6 +124,15 @@ public class Admin extends JPanel {
     }
 
     public void initComponents() throws IOException {
+
+        // Panel settings
+        setMaximumSize(new Dimension(WIDTH, 2500));
+        setMinimumSize(new Dimension(WIDTH, 2500));
+        setPreferredSize(new Dimension(WIDTH, 2500));
+
+        // Panel Layout Manager
+        setLayout(layout);
+
         removeAll();
         // Load a new menu
         menu = new Menu();
@@ -138,21 +147,30 @@ public class Admin extends JPanel {
         setBackground(Color.decode(PANEL_BACKGROUND_COLOR));
         setEnabled(false);
 
-        // Panel settings
-        setMaximumSize(new Dimension(WIDTH, 2500));
-        setMinimumSize(new Dimension(WIDTH, 2500));
-        setPreferredSize(new Dimension(WIDTH, 2500));
-
         // Scroll pane settings
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBounds(50, 30, 300, 50);
+        //scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        //scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        //scrollPane.setBounds(50, 30, 300, 50);
+
+        // Bottom Padding for Each Component Using Constraint
 
 
         // Add drink button
         JButton addDrink = createButton("Add Drink to Menu");
         addDrink.addActionListener(new EditActionListener());
-        add(addDrink);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.5;
+        gbc.insets = new Insets(15, 0, 15, 0);
+        add(addDrink, gbc);
+        gbc.insets = new Insets(0, 0, 0, 0);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 1.0;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        add(new JSeparator(JSeparator.HORIZONTAL), gbc);
 
         // Reads through menu, adds items as buttons to Discovery panel
         for (Drink drink : drinks) {
@@ -161,7 +179,10 @@ public class Admin extends JPanel {
 
         // Set to grid layout for buttons
         // Set styling for all the buttons
-        for (int i = 0; i < drinks.size(); i++) {
+        int x = 2;
+        int s = 3;
+        for (int i = 0; i < drinks.size(); i++, x+=2, s +=2) {
+            gbc.gridwidth = 1;
             // Add panel to this panel
             Icon icon = new ImageIcon("icons/" + drinks.get(i).getId() + ".png");
             //buttons.get(i).setIcon(icon);
@@ -172,26 +193,44 @@ public class Admin extends JPanel {
             buttons.get(i).setBorderPainted(false);
             buttons.get(i).setFocusPainted(false);
             buttons.get(i).setContentAreaFilled(false);
-            buttons.get(i).setPreferredSize(new Dimension(WIDTH, 25));
+            buttons.get(i).setPreferredSize(new Dimension(WIDTH - 100, 25));
 
-            JButton delete = new JButton("Delete");
+            // Delete button
+            gbc.gridx = 1;
+            gbc.gridy = x;
+            gbc.weightx = 0.5;
+            JButton delete = createButton("Delete");
             delete.addActionListener(new DeleteActionListener(drinks.get(i)));
-            add(delete);
+            add(delete, gbc);
 
-            JButton edit = new JButton("Edit");
+            // Edit button
+            gbc.gridx = 2;
+            gbc.gridy = x;
+            gbc.weightx = 0.5;
+            JButton edit = createButton("Edit");
             edit.addActionListener(new EditActionListener(drinks.get(i)));
-            add(edit);
+            add(edit, gbc);
 
+            // Drinks buttons
+            gbc.gridx = 0;
+            gbc.gridy = x;
+            gbc.weightx = 0.5;
             gbc.fill = GridBagConstraints.HORIZONTAL;
             add(buttons.get(i), gbc);
-            separator = new JSeparator(SwingConstants.HORIZONTAL);
-            separator.setPreferredSize(new Dimension(400,3));
-            separator.setVisible(true);
-            add(separator);
+
+            gbc.gridx = 0;
+            gbc.gridy = s;
+            gbc.weightx = 1.0;
+            gbc.gridwidth = GridBagConstraints.REMAINDER;
+            add(new JSeparator(JSeparator.HORIZONTAL), gbc);
 
             // When clicking on a drink, enter its information screen
             buttons.get(i).addActionListener(new ItemActionListener(drinks.get(i)));
         }
+        // Required to place panel components starting at the top left corner
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        add(new JLabel(" "), gbc);
         repaint();
         revalidate();
     }
@@ -269,6 +308,7 @@ public class Admin extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             removeAll();
+            gbc.insets = new Insets(0, 0, 0, 0);
             GridBagConstraints c = new GridBagConstraints();
             JPanel editPanel = createPanel();
             JLabel nameLabel = new JLabel("Name:");
