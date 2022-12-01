@@ -3,14 +3,21 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Main extends JLabel implements ActionListener {
     static JButton b;
+    //static JButton n;
     static JFrame f;
     static JLabel l;
     static JTextField t;
     private static final String PANEL_BACKGROUND_COLOR = "#67497c";
 
+
+    Main()
+    {
+
+    }
     public static void main(String[] args) {
         Cart cart = new Cart();
 
@@ -34,6 +41,7 @@ public class Main extends JLabel implements ActionListener {
 
         f = new JFrame("Admin?");
         b = new JButton("Enter");
+        //n = new JButton("No");
         l = new JLabel();
         Main te = new Main();
         b.addActionListener(te);
@@ -41,6 +49,7 @@ public class Main extends JLabel implements ActionListener {
         JPanel p = new JPanel();
 
         p.add(l);
+        //p.add(n);
         l.setText("Run as admin? [Yes/No]");
         p.add(b);
         p.add(t);
@@ -49,9 +58,10 @@ public class Main extends JLabel implements ActionListener {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.getContentPane().setLayout(new BoxLayout(f.getContentPane(), BoxLayout.Y_AXIS));
         p.setBackground(Color.decode(PANEL_BACKGROUND_COLOR));
-        f.setVisible(true);
+        f.show();
         /* Create and display the form */
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -60,11 +70,18 @@ public class Main extends JLabel implements ActionListener {
         l.setText(t.getText());
         String text = t.getText();
 
-        try {
-            new Gui(text.equalsIgnoreCase("yes")).setVisible(true);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-}
 
+            if(text.equalsIgnoreCase("yes")) {
+                try {
+                    new Gui(true).setVisible(true);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+            if(text.equals("no"))
+            {
+                JOptionPane.showMessageDialog(null, "No access to Admin View");
+
+            }
+
+}}

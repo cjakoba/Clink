@@ -7,10 +7,8 @@ import javax.swing.*;
 
 public class Drink extends JPanel {
 
+    private static final int WIDTH = 410;
     private static final String FONT = "times new roman";
-
-    GridBagLayout layout = new GridBagLayout();
-    GridBagConstraints constraints = new GridBagConstraints();
 
     private String name;
     private String description;
@@ -21,6 +19,9 @@ public class Drink extends JPanel {
     // Can also be used to create new drinks from an admin interface
 
     public Drink() {
+        // JPanel Sizing
+        setPreferredSize(new Dimension(WIDTH, 1200));
+
         this.setVisible(false);
     }
 
@@ -57,59 +58,86 @@ public class Drink extends JPanel {
     }
 
     private void initComponents() {
+        // JPanel Layout Manger
+        GridBagLayout layout = new GridBagLayout();
+        GridBagConstraints c = new GridBagConstraints();
         setLayout(layout);
-        setBackground(new java.awt.Color(159, 8, 234));
-        setMaximumSize(new java.awt.Dimension(550, 900));
-        setMinimumSize(new java.awt.Dimension(550, 900));
-        setPreferredSize(new java.awt.Dimension(550, 900));
+
+        // Bottom Padding for Each Component Using Constraint
+        c.insets = new Insets(0, 0, 15, 0);
+
         String html = "<html><body style='width: %1spx'>%1s";
+
+        // JLabels
+        JLabel imageLabel = new JLabel();
+        JLabel nameLabel = new JLabel(String.valueOf(name));
+        JLabel descriptionLabel = new JLabel(String.format(html, 300, this.description));
+        JLabel priceLabel = new JLabel("$" + String.valueOf(price));
+
+        // JLabel Setting Font Style and Size
+        nameLabel.setFont(new Font(FONT, Font.PLAIN, 30));
+        descriptionLabel.setFont(new Font(FONT, Font.PLAIN, 20));
+        priceLabel.setFont(new Font(FONT, Font.PLAIN, 20));
+
+        // JLabel Font Colors
+        nameLabel.setForeground(Color.WHITE);
+        descriptionLabel.setForeground(Color.WHITE);
+        priceLabel.setForeground(Color.WHITE);
+
+        // Display image for drink
         Icon icon = new ImageIcon("icons/Stock.jpg");
-        JLabel jl1 = new JLabel(String.valueOf(this.name));
-        JLabel jl2 = new JLabel(String.format(html, 300, description));
-        JLabel jl3 = new JLabel(String.valueOf(price));
+        imageLabel.setIcon(icon);
 
-        jl1.setFont(new Font("Serif", Font.BOLD, 20));
+        // Image label position and addition to panel
+        c.gridy = 0;
+        c.gridx = 0;
+        add(imageLabel, c);
 
-        jl1.setIcon(icon);
-        jl2.setFont(new Font(FONT, Font.PLAIN, 20));
-        jl3.setFont(new Font(FONT, Font.PLAIN, 20));
+        // Name label position and addition to panel
+        c.gridy = 1;
+        c.gridx = 0;
+        add(nameLabel, c);
 
-        jl1.setForeground(Color.WHITE);
-        jl2.setForeground(Color.WHITE);
-        jl3.setForeground(Color.WHITE);
+        // Description label position and addition to panel
+        c.gridy = 2;
+        c.gridx = 0;
+        add(descriptionLabel, c);
 
+        // Price label position and addition to panel
+        c.gridy = 3;
+        c.gridx = 0;
+        add(priceLabel, c);
 
-
-        constraints.gridy = 0;
-        constraints.gridx = 0;
-
-        add(jl1, constraints);
-        constraints.gridy = 1;
-        constraints.gridx = 0;
-        add(jl2, constraints);
-
-        constraints.gridwidth = 2;
-        constraints.gridy = 2;
-        constraints.gridx = 0;
-
+        // ADD TO CART JBUTTON ----------------------------------------------------------------------------------------
         JButton addToCart = new JButton("Add To Cart");
-        addToCart.addActionListener(new ItemActionListener(this));
-        add(addToCart, constraints);
-        addToCart.setVisible(true);
-        constraints.gridy = 3;
-        constraints.gridx = 0;
-        add(jl3, constraints);
-        jl1.setVisible(true);
-        jl2.setVisible(true);
-        jl3.setVisible(true);
 
-        // Required to place top left corner
-        constraints.weightx = 1;
-        constraints.weighty = 1;
-        add(new JLabel(" "), constraints);
+        // Button size
+        addToCart.setPreferredSize(new Dimension(100, 45));
+
+        // Button styling
+        addToCart.setBackground(Color.decode("#173d56"));
+        addToCart.setForeground(Color.decode("#e6b37a"));
+        addToCart.setFocusPainted(false);
+
+        // Add To Cart Button Action Listener
+        addToCart.addActionListener(new ItemActionListener(this));
+
+        // Add To Cart Button position and addition to panel
+        c.gridy = 4;
+        c.gridx = 0;
+        add(addToCart, c);
+
+        c.gridy = 5;
+        c.gridx = 0;
+
+        // Required to place panel components starting at the top left corner
+        c.weightx = 1;
+        c.weighty = 1;
+        add(new JLabel(" "), c);
     }
 
-    // When the button is clicked...
+    // ADD TO CART ACTION LISTENER
+    // Adds a drink to a static cart list
     private class ItemActionListener implements ActionListener {
         Drink drink;
 
@@ -139,10 +167,8 @@ public class Drink extends JPanel {
         return id;
     }
 
-    public void offPanel() {
-        setVisible(false);
-    }
 
+    // Panel Gradient Background Color
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
