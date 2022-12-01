@@ -17,6 +17,8 @@ public class Admin extends JPanel {
     private static final String PANEL_BACKGROUND_COLOR = "#224a6c";
     private static final String DRINK_BUTTON_BACKGROUND_COLOR = "#3c4975";
     private static final String DRINK_BUTTON_TEXT_COLOR = "#FFFFFF";
+    private static final int WIDTH = 410;
+    private static final int PANEL_HEIGHT = 630;
 
 
     private String menuname;
@@ -35,17 +37,17 @@ public class Admin extends JPanel {
     JTextArea description;
     JTextArea price;
 
-ArrayList<Customer>mocktails;
+    ArrayList<Customer>mocktails;
 
-public Admin(String menuname) throws IOException {
-    mocktails = new ArrayList<>();
-    this.menuname = menuname;
-    initComponents();
-}
+    public Admin(String menuname) throws IOException {
+        mocktails = new ArrayList<>();
+        this.menuname = menuname;
+        initComponents();
+    }
 
     public String getMenuname(){
-    return menuname;
-}
+        return menuname;
+    }
 
     public Admin() throws IOException {
         mocktails = new ArrayList<>();
@@ -53,7 +55,7 @@ public Admin(String menuname) throws IOException {
     }
 
     public void addOrder(Customer mocktail){
-    mocktails.add(mocktail);
+        mocktails.add(mocktail);
     }
 
     public void print() {
@@ -68,22 +70,22 @@ public Admin(String menuname) throws IOException {
         PrintWriter pr = null;
 
         try {
-        Scanner in = new Scanner(System.in);
-        System.out.println("Deck to save");
-        menuname = in.nextLine();
-        File file =  new File(menuname);
+            Scanner in = new Scanner(System.in);
+            System.out.println("Deck to save");
+            menuname = in.nextLine();
+            File file =  new File(menuname);
 
-        fr = new FileWriter(file, true);
-        br = new BufferedWriter(fr);
-        pr = new PrintWriter(br);
-        pr.println(file);
+            fr = new FileWriter(file, true);
+            br = new BufferedWriter(fr);
+            pr = new PrintWriter(br);
+            pr.println(file);
 
         } catch (FileNotFoundException e) {
             System.out.println("Not a file or directory");
             e.printStackTrace();
-            } catch (IOException e) {
+        } catch (IOException e) {
 
-            }
+        }
     }
 
 
@@ -136,9 +138,9 @@ public Admin(String menuname) throws IOException {
         setEnabled(false);
 
         // Panel settings
-        setMaximumSize(new java.awt.Dimension(550, 2500));
-        setMinimumSize(new java.awt.Dimension(550, 2500));
-        setPreferredSize(new java.awt.Dimension(550, 2500));
+        setMaximumSize(new java.awt.Dimension(WIDTH, 2500));
+        setMinimumSize(new java.awt.Dimension(WIDTH, 2500));
+        setPreferredSize(new java.awt.Dimension(WIDTH, 2500));
 
         // Scroll pane settings
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -169,7 +171,7 @@ public Admin(String menuname) throws IOException {
             buttons.get(i).setBorderPainted(false);
             buttons.get(i).setFocusPainted(false);
             buttons.get(i).setContentAreaFilled(false);
-            buttons.get(i).setPreferredSize(new Dimension(550, 25));
+            buttons.get(i).setPreferredSize(new Dimension(WIDTH, 25));
 
             JButton delete = new JButton("Delete");
             delete.addActionListener(new DeleteActionListener(drinks.get(i)));
@@ -192,9 +194,6 @@ public Admin(String menuname) throws IOException {
         repaint();
         revalidate();
     }
-    // Edit current menu
-    // Change name price, etc of item
-    // Create new menu
 
     private class ItemActionListener implements ActionListener {
         Drink drink;
@@ -455,9 +454,7 @@ public Admin(String menuname) throws IOException {
         button.setOpaque(true);
         button.setBorderPainted(false);
         button.setFocusPainted(false);
-        button.setMaximumSize(new Dimension(100, 75));
-        button.setMinimumSize(new Dimension(100, 75));
-        button.setPreferredSize(new Dimension(100, 75));
+        button.setPreferredSize(new Dimension(100, 45));
 
         return button;
     }
