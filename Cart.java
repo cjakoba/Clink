@@ -85,10 +85,6 @@ class Cart extends JPanel {
         setMinimumSize(new java.awt.Dimension(550, 900));
         setPreferredSize(new java.awt.Dimension(550, 900));
 
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBounds(50, 30, 300, 50);
-
         // Label for an empty cart
         if (cart.size() == 0) {
             JLabel empty = new JLabel("Empty. Its lonely in here...");

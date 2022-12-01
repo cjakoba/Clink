@@ -22,6 +22,7 @@ public class Gui extends JFrame {
     Discovery discovery;
     Admin admin;
     JScrollPane scrollPane;
+    JScrollPane adminScrollPanel;
     Cart cart;
     Order order;
 
@@ -67,6 +68,7 @@ public class Gui extends JFrame {
         this.adminMode = adminMode;
 
         discovery = new Discovery();
+        admin = new Admin();
         cart = new Cart();
         order = new Order();
 
@@ -163,16 +165,6 @@ public class Gui extends JFrame {
         toolbar.add(orderButton, toolbarConstraints);
         toolbar.add(cartButton, toolbarConstraints);
 
-        // Logic for displaying or keeping hidden the toolbar administrative button
-        if (adminMode) {
-            admin = new Admin();
-            admin.setVisible(false);
-            mainPanel.add(admin);
-            adminButton.setVisible(true);
-            toolbar.add(adminButton, toolbarConstraints);
-            adminButton.addActionListener(new AdminActionListener());
-        }
-
         mainPanel.setLayout(layout);
         GridBagConstraints c = new GridBagConstraints();
         c.weightx = 1;
@@ -186,7 +178,23 @@ public class Gui extends JFrame {
         scrollPane.getVerticalScrollBar().setUnitIncrement(SCROLL_SPEED);
         mainPanel.add(scrollPane);
 
-        scrollPane.setMinimumSize(new Dimension(WIDTH, PANEL_HEIGHT));
+        scrollPane.setMinimumSize(new Dimension(WIDTH+25, PANEL_HEIGHT));
+
+
+        // Scroll panel for admin panel
+        adminScrollPanel = new JScrollPane(admin, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        adminScrollPanel.getVerticalScrollBar().setUnitIncrement(SCROLL_SPEED);
+        mainPanel.add(adminScrollPanel);
+
+        adminScrollPanel.setMinimumSize(new Dimension(WIDTH+25, PANEL_HEIGHT));
+
+        // Logic for displaying or keeping hidden the toolbar administrative button
+        if (adminMode) {
+            adminButton.setVisible(true);
+            toolbar.add(adminButton, toolbarConstraints);
+            adminButton.addActionListener(new AdminActionListener());
+        }
 
         // Adding classes to main panel for display
         mainPanel.add(cart, c);
@@ -197,6 +205,8 @@ public class Gui extends JFrame {
         order.setVisible(false);
         cart.setVisible(false);
         scrollPane.setVisible(false);
+        admin.setVisible(false);
+        adminScrollPanel.setVisible(false);
 
         add(toolbar);
     }
@@ -214,6 +224,7 @@ public class Gui extends JFrame {
             order.setVisible(false);
             cart.setVisible(false);
             admin.setVisible(false);
+            adminScrollPanel.setVisible(false);
             orderButton.setBackground(Color.decode(BOTTOM_BUTTON_BACKGROUND_COLOR));
             cartButton.setBackground(Color.decode(BOTTOM_BUTTON_BACKGROUND_COLOR));
             adminButton.setBackground(Color.decode(BOTTOM_BUTTON_BACKGROUND_COLOR));
@@ -230,6 +241,7 @@ public class Gui extends JFrame {
             scrollPane.setVisible(false);
             cart.setVisible(false);
             admin.setVisible(false);
+            adminScrollPanel.setVisible(false);
             discoveryButton.setBackground(Color.decode(BOTTOM_BUTTON_BACKGROUND_COLOR));
             cartButton.setBackground(Color.decode(BOTTOM_BUTTON_BACKGROUND_COLOR));
             adminButton.setBackground(Color.decode(BOTTOM_BUTTON_BACKGROUND_COLOR));
@@ -246,6 +258,7 @@ public class Gui extends JFrame {
             order.setVisible(false);
             scrollPane.setVisible(false);
             admin.setVisible(false);
+            adminScrollPanel.setVisible(false);
             discoveryButton.setBackground(Color.decode(BOTTOM_BUTTON_BACKGROUND_COLOR));
             orderButton.setBackground(Color.decode(BOTTOM_BUTTON_BACKGROUND_COLOR));
             adminButton.setBackground(Color.decode(BOTTOM_BUTTON_BACKGROUND_COLOR));
@@ -256,7 +269,13 @@ public class Gui extends JFrame {
     private class AdminActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            try {
+                admin.refresh();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
             admin.setVisible(true);
+            adminScrollPanel.setVisible(true);
             discovery.setVisible(false);
             order.setVisible(false);
             scrollPane.setVisible(false);
@@ -265,6 +284,8 @@ public class Gui extends JFrame {
             orderButton.setBackground(Color.decode(BOTTOM_BUTTON_BACKGROUND_COLOR));
             cartButton.setBackground(Color.decode(BOTTOM_BUTTON_BACKGROUND_COLOR));
             adminButton.setBackground(Color.decode("#0e2535"));
+            revalidate();
+            repaint();
         }
     }
 

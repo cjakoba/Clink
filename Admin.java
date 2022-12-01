@@ -27,8 +27,8 @@ public class Admin extends JPanel {
     private ArrayList<Drink> drinks;
 
 
-    GridBagLayout layout = new GridBagLayout();
-    GridBagConstraints gbc = new GridBagConstraints();
+    GridBagLayout layout;
+    GridBagConstraints gbc;
     JScrollPane scrollPane = new JScrollPane(this);
     JSeparator separator;
     Menu menu;
@@ -43,6 +43,7 @@ public class Admin extends JPanel {
     public Admin(String menuname) throws IOException {
         mocktails = new ArrayList<>();
         this.menuname = menuname;
+
         initComponents();
     }
 
@@ -52,6 +53,9 @@ public class Admin extends JPanel {
 
     public Admin() throws IOException {
         mocktails = new ArrayList<>();
+
+
+
         initComponents();
     }
 
@@ -124,16 +128,18 @@ public class Admin extends JPanel {
     }
 
     public void initComponents() throws IOException {
+        removeAll();
 
         // Panel settings
-        setMaximumSize(new Dimension(WIDTH, 2500));
-        setMinimumSize(new Dimension(WIDTH, 2500));
-        setPreferredSize(new Dimension(WIDTH, 2500));
+        setPreferredSize(new Dimension(WIDTH, 800));
+
+        // Panel Layout Manager
+        layout = new GridBagLayout();
+        gbc = new GridBagConstraints();
 
         // Panel Layout Manager
         setLayout(layout);
 
-        removeAll();
         // Load a new menu
         menu = new Menu();
         if (drinks != null) {
@@ -146,14 +152,6 @@ public class Admin extends JPanel {
 
         setBackground(Color.decode(PANEL_BACKGROUND_COLOR));
         setEnabled(false);
-
-        // Scroll pane settings
-        //scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        //scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        //scrollPane.setBounds(50, 30, 300, 50);
-
-        // Bottom Padding for Each Component Using Constraint
-
 
         // Add drink button
         JButton addDrink = createButton("Add Drink to Menu");
@@ -540,7 +538,7 @@ public class Admin extends JPanel {
         JButton button = new JButton(text);
 
         // Button size
-        button.setPreferredSize(new Dimension(100, 45));
+        button.setPreferredSize(new Dimension(50, 45));
 
         // Button styling
         button.setBackground(Color.decode(BOTTOM_BUTTON_BACKGROUND_COLOR));
@@ -562,6 +560,20 @@ public class Admin extends JPanel {
         textField.setLineWrap(true);
 
         return textField;
+    }
+
+    public void refresh() throws IOException {
+        // Get all the components within the panel
+        Component[] components = getComponents();
+
+        for (Component component : components) {
+            if (component instanceof JSeparator || component instanceof JButton) {
+                remove(component);
+            }
+        }
+        initComponents();
+        repaint();
+        revalidate();
     }
 }
 
