@@ -9,20 +9,21 @@ import javax.swing.ImageIcon;
 
 public class Discovery extends JPanel {
 
-    private static final String PANEL_BACKGROUND_COLOR = "#224a6c";
     private static final String DRINK_BUTTON_BACKGROUND_COLOR = "#3c4975";
     private static final String DRINK_BUTTON_TEXT_COLOR = "#FFFFFF";
+    private static final int WIDTH = 410;
 
     private ArrayList<Drink> drinks = new ArrayList<>();
     private ArrayList<JButton> buttons = new ArrayList<>();
-    GridBagLayout layout = new GridBagLayout();
     GridBagConstraints gbc = new GridBagConstraints();
-    JScrollPane scrollPane = new JScrollPane(this);
     JSeparator separator;
     Menu menu;
-    Drink drinkPanel;
+    JLabel panelTitle;
 
     public Discovery() throws IOException {
+        // JPanel Sizing
+        setPreferredSize(new Dimension(WIDTH, 3050));
+
         initComponents();
     }
 
@@ -30,19 +31,6 @@ public class Discovery extends JPanel {
         removeAll();
         // Load up the current menu
         menu = new Menu();
-
-        setBackground(Color.decode(PANEL_BACKGROUND_COLOR));
-        setEnabled(false);
-
-        // Panel settings
-        setMaximumSize(new java.awt.Dimension(550, 3050));
-        setMinimumSize(new java.awt.Dimension(550, 3050));
-        setPreferredSize(new java.awt.Dimension(550, 3050));
-
-        // Scroll pane settings
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBounds(50, 30, 300, 50);
 
         // Reads through menu, adds items as buttons to Discovery panel
         for (Drink drink : menu.getDrinks()) {
@@ -63,7 +51,7 @@ public class Discovery extends JPanel {
             buttons.get(i).setBorderPainted(false);
             buttons.get(i).setFocusPainted(false);
             buttons.get(i).setContentAreaFilled(false);
-            buttons.get(i).setPreferredSize(new Dimension(550, 100));
+            buttons.get(i).setPreferredSize(new Dimension(WIDTH, 65));
             gbc.fill = GridBagConstraints.HORIZONTAL;
             add(buttons.get(i), gbc);
             separator = new JSeparator(SwingConstants.HORIZONTAL);
@@ -140,3 +128,4 @@ public class Discovery extends JPanel {
         revalidate();
     }
 }
+
