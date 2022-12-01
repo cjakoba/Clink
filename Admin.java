@@ -131,7 +131,7 @@ public class Admin extends JPanel {
         removeAll();
 
         // Panel settings
-        setPreferredSize(new Dimension(WIDTH, 800));
+        setPreferredSize(new Dimension(WIDTH, 900));
 
         // Panel Layout Manager
         layout = new GridBagLayout();
@@ -159,7 +159,7 @@ public class Admin extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 0.5;
-        gbc.insets = new Insets(15, 0, 15, 0);
+        gbc.insets = new Insets(0, 0, 0, 0);
         add(addDrink, gbc);
         gbc.insets = new Insets(0, 0, 0, 0);
 
