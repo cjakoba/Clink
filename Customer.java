@@ -51,27 +51,6 @@ public class Customer extends JPanel {
         //this.address = address;
         initComponents();
     }
-    //public String myInfo()
-    //{
-        //return name + " " + contactNumber + " " + address;
-    //}
-
-    //just an example of how receipt will look, I know we need to print it on gui later
-    //public void printReceipt()
-    //{
-
-          //System.out.println(
-                    //"--------------------------------"
-                            //+ "-----------FEE RECEIPT----"
-                            //+ "--------------------------"
-                            //+ "--------------------------"
-                            //+ "-------------------\n");
-
-            //System.out.println("Name: " + name);
-            //System.out.println("Contact Number: " + contactNumber);
-            //System.out.println("Address: " + address);
-
-    //}
 
     // SETTERS
     public void setFirstName(String firstName) {
