@@ -12,6 +12,10 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class Checkout extends JPanel{
+
+    private static final int PANEL_HEIGHT = 630;
+    private static final int WIDTH = 410;
+
     private Customer customer;
     private LocalDateTime orderDate;
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -64,15 +68,14 @@ public class Checkout extends JPanel{
         }
         pw.printf("Order total: | %.2f\n", Cart.getSubtotal() + 5.99 + (Cart.getSubtotal() + 5.99) * 0.053);
         pw.printf("ID: | %s\n", String.valueOf(getNextID()));
+        pw.printf("%s", Status.values()[0]);
         pw.println();
         pw.flush();
         pw.close();
     }
 
     private void initComponents() {
-        setMaximumSize(new java.awt.Dimension(550, 900));
-        setMinimumSize(new java.awt.Dimension(550, 900));
-        setPreferredSize(new java.awt.Dimension(550, 900));
+        setPreferredSize(new Dimension(WIDTH, PANEL_HEIGHT));
 
         // JLabels
         shipTo = new JLabel(String.format("Shipping to: %s %s %s", customer.getFirstName(), customer.getLastName(), customer.getAddress()));
@@ -102,7 +105,7 @@ public class Checkout extends JPanel{
 
     // Finds the appropriate ID number to assign new customer order by going through previous orders
     public int getNextID() throws IOException {
-        int orderID = -1;
+        int orderID = 0;
         File directoryPath = new File("orders");
         boolean hasID = false;
         String line;
@@ -208,4 +211,5 @@ public class Checkout extends JPanel{
         g2d.fillRect(0, 0, w, h);
     }
 }
+
 
