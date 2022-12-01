@@ -17,6 +17,7 @@ public class Admin extends JPanel {
     private static final String PANEL_BACKGROUND_COLOR = "#224a6c";
     private static final String DRINK_BUTTON_BACKGROUND_COLOR = "#3c4975";
     private static final String DRINK_BUTTON_TEXT_COLOR = "#FFFFFF";
+    private static final String FONT = "helvetica";
     private static final int WIDTH = 410;
     private static final int PANEL_HEIGHT = 630;
 
@@ -138,9 +139,9 @@ public class Admin extends JPanel {
         setEnabled(false);
 
         // Panel settings
-        setMaximumSize(new java.awt.Dimension(WIDTH, 2500));
-        setMinimumSize(new java.awt.Dimension(WIDTH, 2500));
-        setPreferredSize(new java.awt.Dimension(WIDTH, 2500));
+        setMaximumSize(new Dimension(WIDTH, 2500));
+        setMinimumSize(new Dimension(WIDTH, 2500));
+        setPreferredSize(new Dimension(WIDTH, 2500));
 
         // Scroll pane settings
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -263,17 +264,29 @@ public class Admin extends JPanel {
             this.drink = drink;
         }
 
-        public EditActionListener() {
-        }
+        public EditActionListener() {}
 
         @Override
         public void actionPerformed(ActionEvent e) {
             removeAll();
             GridBagConstraints c = new GridBagConstraints();
             JPanel editPanel = createPanel();
+            JLabel nameLabel = new JLabel("Name:");
+            JLabel descriptionLabel = new JLabel("Description:");
+            JLabel priceLabel = new JLabel("Price:");
+
+            // JLabel Font Style and Size
+            nameLabel.setFont(new Font(FONT, Font.PLAIN, 20));
+            descriptionLabel.setFont(new Font(FONT, Font.PLAIN, 20));
+            priceLabel.setFont(new Font(FONT, Font.PLAIN, 20));
+
+            // JLabel Font Colors
+            nameLabel.setForeground(Color.decode("#e6b37a"));
+            descriptionLabel.setForeground(Color.decode("#e6b37a"));
+            priceLabel.setForeground(Color.decode("#e6b37a"));
 
             // JButtons
-            JButton back = createButton("Back");
+            JButton back = createButton("Cancel");
             JButton save = createButton("Save");
             back.addActionListener(new BackActionListener());
 
@@ -290,41 +303,80 @@ public class Admin extends JPanel {
                 price = createTextField("0.00");
                 save.addActionListener(new SaveActionListener(drink));
             }
-            name.setPreferredSize(new Dimension(450, 30));
-            description.setPreferredSize(new Dimension(450, 300));
-            price.setPreferredSize(new Dimension(450, 30));
 
+            name.setPreferredSize(new Dimension(WIDTH - 50, 30));
+            description.setPreferredSize(new Dimension(WIDTH - 50, 300));
+            price.setPreferredSize(new Dimension(WIDTH - 50, 30));
+
+            // Bottom Padding for Each Component Using Constraint
+            c.insets = new Insets(0, 0, 15, 5);
+
+            // Back button
             c.fill = GridBagConstraints.HORIZONTAL;
             c.gridx = 0;
             c.gridy = 0;
             c.weightx = 0.5;
             editPanel.add(back, c);
+
+            // Top button
             c.fill = GridBagConstraints.HORIZONTAL;
             c.gridx = 1;
             c.gridy = 0;
             c.weightx = 0.5;
             editPanel.add(save, c);
+
+            // Bottom Padding for Each Component Using Constraint
+            c.insets = new Insets(0, 0, 0, 0);
+
+            // Name label
             c.fill = GridBagConstraints.HORIZONTAL;
             c.gridwidth = 2;
             c.gridx = 0;
             c.gridy = 1;
             c.weightx = 0.5;
-            editPanel.add(name, c);
+            editPanel.add(nameLabel, c);
+
+            // Name Textfield
+            c.insets = new Insets(0, 0, 15, 0);
             c.fill = GridBagConstraints.HORIZONTAL;
             c.gridx = 0;
             c.gridy = 2;
             c.weightx = 0.5;
-            editPanel.add(description, c);
+            editPanel.add(name, c);
+
+            // Description label
+            c.insets = new Insets(0, 0, 0, 0);
             c.fill = GridBagConstraints.HORIZONTAL;
             c.gridx = 0;
             c.gridy = 3;
             c.weightx = 0.5;
-            editPanel.add(price, c);
+            editPanel.add(descriptionLabel, c);
+
+            // Description Textfield
+            c.insets = new Insets(0, 0, 15, 0);
             c.fill = GridBagConstraints.HORIZONTAL;
-            c.gridx = 1;
+            c.gridx = 0;
             c.gridy = 4;
             c.weightx = 0.5;
+            editPanel.add(description, c);
 
+            // Price label
+            c.insets = new Insets(0, 0, 0, 0);
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.gridx = 0;
+            c.gridy = 5;
+            c.weightx = 0.5;
+            editPanel.add(priceLabel, c);
+
+            // Price textfield
+            c.insets = new Insets(0, 0, 15, 0);
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.gridx = 0;
+            c.gridy = 6;
+            c.weightx = 0.5;
+            editPanel.add(price, c);
+
+            // Adding edit panel to admin panel
             add(editPanel);
 
             repaint();
@@ -432,9 +484,9 @@ public class Admin extends JPanel {
         };
 
         // Panel settings
-        setMaximumSize(new Dimension(550, 900));
-        setMinimumSize(new Dimension(550, 900));
-        setPreferredSize(new Dimension(550, 900));
+        setMaximumSize(new Dimension(WIDTH, PANEL_HEIGHT));
+        setMinimumSize(new Dimension(WIDTH, PANEL_HEIGHT));
+        setPreferredSize(new Dimension(WIDTH, PANEL_HEIGHT));
 
         // Panel layout
         GridBagLayout gbl = new GridBagLayout();
@@ -445,16 +497,15 @@ public class Admin extends JPanel {
 
     // Creates a new button
     public JButton createButton(String text) {
-        JButton button = new JButton();
+        JButton button = new JButton(text);
 
-        // BUTTON STYLING
-        button.setText(text);
-        button.setBackground(Color.decode(BOTTOM_BUTTON_BACKGROUND_COLOR));
-        button.setForeground(Color.decode(BOTTOM_BUTTON_TEXT_COLOR));
-        button.setOpaque(true);
-        button.setBorderPainted(false);
-        button.setFocusPainted(false);
+        // Button size
         button.setPreferredSize(new Dimension(100, 45));
+
+        // Button styling
+        button.setBackground(Color.decode(BOTTOM_BUTTON_BACKGROUND_COLOR));
+        button.setForeground(Color.decode("#e6b37a"));
+        button.setFocusPainted(false);
 
         return button;
     }
@@ -465,7 +516,7 @@ public class Admin extends JPanel {
         textField.setBackground(Color.decode(TEXTFIELD_BACKGROUND_COLOR));
         textField.setBorder(BorderFactory.createLineBorder(Color.decode(TEXTFIELD_BORDER_COLOR)));
         textField.setForeground(Color.decode(TEXTFIELD_TEXT_COLOR));
-        textField.setColumns(25);
+        textField.setColumns(20);
         textField.setFont(new Font("Helvetica", Font.PLAIN, 22));
         textField.setWrapStyleWord(true);
         textField.setLineWrap(true);
